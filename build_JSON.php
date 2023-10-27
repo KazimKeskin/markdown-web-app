@@ -4,7 +4,6 @@ header('Content-Type: application/json');
 $directoryPath = '../';
 $jsonData = [];
 generateJSON($jsonData, $directoryPath);
-echo json_encode($jsonData);
 
 function generateJSON(&$jsonData, $dir, $depthIndex = 0) {
     $array = ['md', 'html', 'php', 'js', 'css', 'txt']; // you can add more file types. note that html can cause issues
@@ -51,6 +50,7 @@ function generateJSON(&$jsonData, $dir, $depthIndex = 0) {
         }
     }
     addLinks($jsonData);
+    
     return $jsonData;
 }
 
@@ -102,7 +102,6 @@ function addLinks($jsonData) {
                     if ($otherFile['filename'] === $val['url']) {
                       $file['links'][$key]['filepath'] = $otherFile['filepath'];
                       $file['links'][$key]['id'] = $otherFile['id'];
-
                     }
                   }
               }
