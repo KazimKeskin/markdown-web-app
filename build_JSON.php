@@ -6,7 +6,7 @@ $jsonData = [];
 generateJSON($jsonData, $directoryPath);
 
 function generateJSON(&$jsonData, $dir, $depthIndex = 0) {
-    $array = ['md', 'html', 'php', 'js', 'css', 'txt']; // you can add more file types. note that html can cause issues
+    $fileTypeArray = ['md', 'html', 'php', 'js', 'css', 'txt']; // You can add more file types.
 
     if ($dir !== './') {
             $dir = rtrim($dir, '/') . '/';  // Ensure the directory path has a trailing '/'
@@ -33,7 +33,7 @@ function generateJSON(&$jsonData, $dir, $depthIndex = 0) {
                     'depthIndex' => $depthIndex
                 ];
                 generateFolderStructureJSON($jsonData, $itemPath, $depthIndex + 1);
-            } elseif (pathinfo($itemPath, PATHINFO_EXTENSION) === 'md') {
+            } elseif (in_array(pathinfo($itemPath, PATHINFO_EXTENSION), $fileTypeArray)) {
                 $jsonData[] = [
                     'id' => uniqid(),
                     'filepath' => $dir  . $item,
