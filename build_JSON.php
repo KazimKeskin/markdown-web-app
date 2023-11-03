@@ -1,12 +1,14 @@
 <?php
 ini_set('memory_limit', '512M'); // or a higher value if needed
 header('Content-Type: application/json');
-$directoryPath = '../';
-$jsonData = [];
-generateJSON($jsonData, $directoryPath);
 
-function generateJSON(&$jsonData, $dir, $depthIndex = 0) {
-    $fileTypeArray = ['md', 'html', 'php', 'js', 'css', 'txt']; // You can add more file types.
+$directoryPath = '../';
+$jsonData = generateFolderStructureJSON($jsonData, $directoryPath);
+$jsonData = addLinks($jsonData);
+echo json_encode($jsonData);
+
+function generateFolderStructureJSON(&$jsonData, $dir, $depthIndex = 0) {
+    $array = ['md', 'html', 'php', 'js', 'css', 'txt']; // you can add more file types. note that html can cause issues
 
     if ($dir !== './') {
             $dir = rtrim($dir, '/') . '/';  // Ensure the directory path has a trailing '/'
@@ -33,7 +35,7 @@ function generateJSON(&$jsonData, $dir, $depthIndex = 0) {
                     'depthIndex' => $depthIndex
                 ];
                 generateFolderStructureJSON($jsonData, $itemPath, $depthIndex + 1);
-            } elseif (in_array(pathinfo($itemPath, PATHINFO_EXTENSION), $fileTypeArray)) {
+            } elseif (in_array(pathinfo($itemPath, PATHINFO_EXTENSION), $array)) {
                 $jsonData[] = [
                     'id' => uniqid(),
                     'filepath' => $dir  . $item,
@@ -49,8 +51,7 @@ function generateJSON(&$jsonData, $dir, $depthIndex = 0) {
             }
         }
     }
-    addLinks($jsonData);
-    
+
     return $jsonData;
 }
 
@@ -76,7 +77,7 @@ function addLinks($jsonData) {
     if (array_key_exists('type', $file)) {
       if ($file['type'] === 'file' && pathinfo($file['filename'], PATHINFO_EXTENSION) === 'md') {
           // Parse the Markdown file and extract links
-          $filePath = $file['relativePath'] . $file['filename'];
+          $filePath = $file['filepath'];
           $links = parseMarkdownFile($filePath);
 
           // Add links to the current file
@@ -91,22 +92,24 @@ function addLinks($jsonData) {
                   // Check if the current file is referenced in the other file
                   if (strpos($otherFile['value'], $file['title']) !== false) {
                       // Add the other file as a backlink to the current file
-                      $otherFileId = $otherFile['id'];
-                      $backlinks = [];
-                      $backlinks['id'] = $otherFileId;
-                      $backlinks['filepath'] = $otherFile['filepath'];
-                      $backlinks['title'] = $otherFile['title'];
-                      $file['backlinks'][] = $backlinks;
+                      $backlink = [];
+                      $backlink['id'] = $otherFile['id'];
+                      $backlink['filepath'] = $otherFile['filepath'];
+                      $backlink['title'] = $otherFile['title'];
+                      $file['backlinks'][] = $backlink;
                   }
                   foreach ($file['links'] as $key => $val) {
                     if ($otherFile['filename'] === $val['url']) {
                       $file['links'][$key]['filepath'] = $otherFile['filepath'];
                       $file['links'][$key]['id'] = $otherFile['id'];
+
                     }
                   }
               }
           }
       }}
   }}
+
+  return $jsonData;
 }
 ?>
