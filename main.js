@@ -118,7 +118,7 @@ backlinkSection.innerHTML = "";
 function addContent(item) {
   markdownContent.mdContent = item.value
   displayBacklinks(item)
-  updateurls()
+  updateUrls()
 }
 
 
