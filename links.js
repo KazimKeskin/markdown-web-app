@@ -50,7 +50,7 @@ function displayBacklinks(file) {
     backlinkItem.appendChild(backlinkLink);
     backlinkList.appendChild(backlinkItem);
 
-}
+    }
 
     backlinkSection.appendChild(backlinkList);
   } else {
