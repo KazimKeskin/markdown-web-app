@@ -1,4 +1,4 @@
-function updateUrls() {
+function updateLinks() {
     const links = document.querySelectorAll('a');
     // Attach event listener to each link
     links.forEach(link => {
