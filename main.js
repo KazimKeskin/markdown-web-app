@@ -101,7 +101,9 @@ function findFileInJSON(hash, jsonData) {
 function renderPage(item) {
   clearPage()
   console.log(item)
-  addContent(item)
+  addContent(item).then(() => {
+    updateLinks();
+  });
   addMeta(item)
 }
 
@@ -116,9 +118,11 @@ backlinkSection.innerHTML = "";
 
 
 function addContent(item) {
-  markdownContent.mdContent = item.value
-  displayBacklinks(item)
-  updateUrls()
+  return new Promise((resolve) => {
+    markdownContent.mdContent = item.value;
+    displayBacklinks(item);
+    resolve();
+  });
 }
 
 
