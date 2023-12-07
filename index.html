@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="module" src="https://md-block.verou.me/md-block.js"></script> <!-- for Markdown styling -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Web App</title>
+  <link rel="stylesheet" href="code/stylesheet.css">
+  <link rel="stylesheet" href="code/prism.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="sidebar">
+      <ul id="fileList"></ul>
+    </div>
+    <div id="backlinks"></div>
+    <div id="page">
+        <h1 id="heading"></h1>
+        <h6 id="date"></h6>
+        <h6 id="time"></h6>
+        <br>
+        <div id="content">
+          <md-block id="markdownContent"></md-block>
+        </div>
+    </div>
+  </div>
+
+  <script src="code/prism.js"></script>
+  <script src="code/main.js"></script>
+  <script src="code/links.js"></script>
+</body>
+</html>
