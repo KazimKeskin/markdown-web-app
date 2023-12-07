@@ -2,21 +2,25 @@ function updateUrls() {
     const links = document.querySelectorAll('a');
     // Attach event listener to each link
     links.forEach(link => {
-      const path = findFileFromLink(link.getAttribute("href"), jsonData)
-      link.href = path
+      const path = findFilefromlink(link.innerText, jsonData)
+      if(path) {
+        link.dataset.url = path
+        link.href = path
+      }
       link.addEventListener('click', function(event) {
-        const url = new URL(this.href);
-        const isExternalLink = !url.hostname.includes('localhost'); // Change "localhost" to your domain
+        if (this.href) {const url = new URL(this.href); // Parse the URL
+        const isExternalLink = !url.hostname.includes('localhost'); // Change "yourdomain.com" to your domain
 
         if (isExternalLink) {
           // Allow default behavior for external links
           return;
         }
+      }
         event.preventDefault(); // Prevent default link behavior
 
-        // let hash = this.getAttribute("href");
+        // let hash = this.getAttribute("href"); // Get the last part of the path
         let hash = this.dataset.url
-        window.location.hash = hash;
+        window.location.hash = hash; // Update the window hash
       });
   });
 }
