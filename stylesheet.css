@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  padding: 0
+}
+
+ul {
+  padding-left: 30px;
+}
+
+li{
+  list-style-type: none;
+  padding: 4px;
+}
+
+#container {
+  display:flex;
+  height: 100vh;
+}
+
+#sidebar {
+  height: 100vh;
+  width: 20%;
+  max-width: 500px;
+  overflow-y: scroll;
+}
+
+#fileList{
+  padding: 0;
+}
+
+#backlinks {
+  height: 100vh;
+  width: 10%;
+  min-width: 100px;
+  margin-left: 0px;
+  margin-right: 10px;
+}
+
+#page {
+  overflow: scroll;
+  width: 100%;
+  padding: 20px;
+}
