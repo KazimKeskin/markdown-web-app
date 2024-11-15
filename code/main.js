@@ -3,7 +3,7 @@ const markdownContent = document.getElementById('markdownContent');
 const titleHeading = document.getElementById('heading');
 const dateHeading = document.getElementById('date');
 const timeHeading = document.getElementById('time');
-const backlinkSection = document.getElementById('backlinkSection');
+const backlinkSection = document.getElementById('backlinks');
 
 let jsonData;
 let notebookLoaded = false;
@@ -57,7 +57,7 @@ async function load() {
 
 async function getData() {
   try {
-    const response = await fetch('code/buildData.php');
+    const response = await fetch('code/build_JSON.php');
 
     if (!response.ok) {
       throw new Error('Network response was not ok');
