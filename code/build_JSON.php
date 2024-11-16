@@ -58,14 +58,20 @@ function generateFolderStructureJSON(&$jsonData, $dir, $depthIndex = 0) {
 function parseMarkdownFile($filePath) {
     $content = file_get_contents($filePath);
 
-    // Regular expression to match Markdown links
-    $pattern = '/\[(.*?)\]\((.*?)\)/';
+    $pattern = '/\[(.*?)\]\((.*?)\)|\[\[(.*?)(?:\|(.*?))?\]\]/';
     preg_match_all($pattern, $content, $matches, PREG_SET_ORDER);
 
     $links = [];
     foreach ($matches as $match) {
-        $text = $match[1];
-        $url = $match[2];
+        if (!empty($match[1]) && !empty($match[2])) {
+            // Markdown link
+            $text = $match[1];
+            $url = $match[2];
+        } elseif (!empty($match[3])) {
+            // WikiLink
+            $text = $match[4] ?? $match[3]; // Use alias if available, otherwise the link itself
+            $url = $match[3];
+        }
         $links[] = ['text' => $text, 'url' => $url];
     }
 
