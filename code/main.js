@@ -8,9 +8,10 @@ const backlinkSection = document.getElementById('backlinks');
 let jsonData;
 let notebookLoaded = false;
 
-window.onhashchange = loadPage;
-
-load()
+window.onload = async () => {
+  await load(); // Ensure data is loaded
+  window.onhashchange = loadPage; // Attach after data is ready
+};
 
 
 function createNestedList(jsonData, fileList) {
