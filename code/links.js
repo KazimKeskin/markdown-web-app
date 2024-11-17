@@ -61,3 +61,24 @@ function displayBacklinks(file) {
     // backlinkSection.textContent = 'No backlinks found.';
   }
 }
+
+
+function parseLinks(text) {
+  return text.replace(/\[\[([^\]]+)\]\]/g, (match, content) => {
+    const [link, alias] = content.split('|').map(part => part.trim());
+    return convertLinkToMarkdown(link, alias);
+  });
+}
+
+
+function convertLinkToMarkdown(link, alias = link) {
+  const formattedLink = ensureFileExtension(link);
+  return `[${alias}](${encodeURIComponent(formattedLink)})`;
+}
+
+
+function ensureFileExtension(link) {
+  // Add .md file extension if none
+  const fileExtensionRegex = /\.[a-zA-Z0-9]+$/;
+  return fileExtensionRegex.test(link) ? link : `${link}.md`;
+}
