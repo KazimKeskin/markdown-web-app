@@ -119,7 +119,9 @@ backlinkSection.innerHTML = "";
 
 function addContent(item) {
   return new Promise((resolve) => {
-    markdownContent.mdContent = item.value;
+    let content = item.value;
+    content = parseLinks(content); //Converts links to markdown format. It is better to do this with a more reliable method, outside of this app, and remove this, as the function is not perfectly reliable as it will make guesses about undeclared filepaths.
+    markdownContent.mdContent = content;
     displayBacklinks(item);
     resolve();
   });
