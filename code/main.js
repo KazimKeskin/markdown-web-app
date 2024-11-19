@@ -6,6 +6,8 @@ const timeHeading = document.getElementById('time');
 const backlinkSection = document.getElementById('backlinks');
 const linkSection = document.getElementById('links');
 const page = document.getElementById('page');
+const headingsSection = document.getElementById('headingsSection');
+
 
 let jsonData;
 let notebookLoaded = false;
@@ -120,6 +122,7 @@ function clearPage() {
   timeHeading.innerText = "";
   backlinkSection.innerHTML = "";
   linkSection.innerHTML = "";
+  headingsSection.innerHTML = "";
 }
 
 
@@ -131,6 +134,7 @@ function renderPage(item) {
       updateLinks(backlinkSection);
       updateLinks(linkSection);
       updateLinks(page);
+      listMarkdownHeadings(item.value);
     })
     .catch(error => {
       console.error("Error adding content:", error);
