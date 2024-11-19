@@ -4,6 +4,8 @@ const titleHeading = document.getElementById('heading');
 const dateHeading = document.getElementById('date');
 const timeHeading = document.getElementById('time');
 const backlinkSection = document.getElementById('backlinks');
+const linkSection = document.getElementById('links');
+const page = document.getElementById('page');
 
 let jsonData;
 let notebookLoaded = false;
@@ -103,28 +105,55 @@ function renderPage(item) {
   clearPage()
   console.log(item)
   addContent(item).then(() => {
-    updateLinks();
+      updateLinks(backlinkSection);
+      updateLinks(linkSection);
+      updateLinks(page);
   });
   addMeta(item)
 }
 
 
 function clearPage() {
-markdownContent.innerHTML = "";
-titleHeading.innerText = "";
-dateHeading.innerText = "";
-timeHeading.innerText = "";
-backlinkSection.innerHTML = "";
+  markdownContent.innerHTML = "";
+  titleHeading.innerText = "";
+  dateHeading.innerText = "";
+  timeHeading.innerText = "";
+  backlinkSection.innerHTML = "";
+  linkSection.innerHTML = "";
 }
 
+
+function renderPage(item) {
+  clearPage();
+  addMeta(item);
+  addContent(item)
+    .then(() => {
+      updateLinks(backlinkSection);
+      updateLinks(linkSection);
+      updateLinks(page);
+    })
+    .catch(error => {
+      console.error("Error adding content:", error);
+    });
+}
 
 function addContent(item) {
   return new Promise((resolve) => {
     let content = item.value;
-    content = parseLinks(content); //Converts links to markdown format. It is better to do this with a more reliable method, outside of this app, and remove this, as the function is not perfectly reliable as it will make guesses about undeclared filepaths.
+    content = parseLinks(content);
     markdownContent.mdContent = content;
     displayBacklinks(item);
-    resolve();
+    displayLinks(item);
+
+    markdownContent.addEventListener('md-render', function() {
+      clearTimeout(timeoutId);
+      resolve();
+    }, { once: true });
+
+    timeoutId = setTimeout(() => {
+      console.warn("md-render timeout! Resolving anyway.");
+      reject(new Error("md-render timeout"));
+    }, 500);
   });
 }
 
