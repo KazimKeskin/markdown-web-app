@@ -1,26 +1,30 @@
-function updateLinks() {
-    const links = document.querySelectorAll('a');
-    // Attach event listener to each link
+function updateLinks(section) {
+    const links = section.querySelectorAll('a');
     links.forEach(link => {
-      const path = findFilefromlink(link.innerText, jsonData)
+      console.log(link)
+      const path = findFileFromLink(link.innerText, jsonData)
       if(path) {
         link.dataset.url = path
         link.href = path
       }
       link.addEventListener('click', function(event) {
-        if (this.href) {const url = new URL(this.href); // Parse the URL
-        const isExternalLink = !url.hostname.includes('localhost'); // Change "yourdomain.com" to your domain
 
-        if (isExternalLink) {
-          // Allow default behavior for external links
-          return;
-        }
+      //   if (this.href) {const url = new URL(this.href); // Parse the URL
+      //   const isExternalLink = !url.hostname.includes('localhost'); // Change "yourdomain.com" to your domain
+
+      //   if (isExternalLink) {
+      //     // Allow default behavior for external links
+      //     return;
+      //   }
+      
+      // }
+      if (!path) {
+        return;
       }
-        event.preventDefault(); // Prevent default link behavior
+        event.preventDefault();
 
-        // let hash = this.getAttribute("href"); // Get the last part of the path
         let hash = this.dataset.url
-        window.location.hash = hash; // Update the window hash
+        window.location.hash = hash;
       });
   });
 }
@@ -81,4 +85,30 @@ function ensureFileExtension(link) {
   // Add .md file extension if none
   const fileExtensionRegex = /\.[a-zA-Z0-9]+$/;
   return fileExtensionRegex.test(link) ? link : `${link}.md`;
+}
+
+
+function displayLinks(file) {
+  const linkedFiles = file.links || [];
+  if (linkedFiles.length > 0) {
+    const linkList = document.createElement('ul');
+
+    linkedFiles.forEach(linkedFile => {
+      console.log(linkedFile);
+      const linkItem = document.createElement('li');
+      const linkAnchor = document.createElement('a');
+
+      linkAnchor.textContent = linkedFile.title;
+      linkAnchor.href = linkedFile.url;
+      linkAnchor.dataset.id= linkedFile.id;
+      linkAnchor.dataset.url = linkedFile.filepath;
+
+      linkItem.appendChild(linkAnchor);
+      linkList.appendChild(linkItem);
+    });
+
+    linkSection.appendChild(linkList);
+  } else {
+    linkSection.textContent = "No links found.";
+  }
 }
