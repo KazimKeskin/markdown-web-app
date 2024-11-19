@@ -112,3 +112,42 @@ function displayLinks(file) {
     linkSection.textContent = "No links found.";
   }
 }
+
+
+function listMarkdownHeadings(markdownText) {
+  const headingRegex = /^(#{1,6})\s+(.*)$/gm;
+
+  let match;
+  const headingsList = document.createElement('ul');
+
+  while ((match = headingRegex.exec(markdownText)) !== null) {
+    const headingLevel = match[1].length;
+    const headingText = match[2];
+
+    const listItem = document.createElement('li');
+    const headingLink = document.createElement('a');
+
+    headingLink.textContent = headingText;
+    headingLink.href = '#' + headingText.toLowerCase().replace(/\s+/g, '-');
+
+    headingLink.addEventListener('click', function(event) {
+      event.preventDefault();
+    
+      const headings = document.querySelectorAll(`#markdownContent h${headingLevel}`);
+    
+      const targetHeading = Array.from(headings).find(heading => heading.textContent.trim() === headingText.trim());
+    
+      if (targetHeading) {
+        targetHeading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        console.warn('Target heading not found:', headingText);
+      }
+    });
+    
+
+    listItem.appendChild(headingLink);
+    headingsList.appendChild(listItem);
+  }
+
+  headingsSection.appendChild(headingsList);
+}
