@@ -57,7 +57,7 @@ function displayBacklinks(file) {
 
     backlinkSection.appendChild(backlinkList);
   } else {
-    // backlinkSection.textContent = 'No backlinks found.';
+    backlinkSection.textContent = 'No backlinks found.';
   }
 }
 
