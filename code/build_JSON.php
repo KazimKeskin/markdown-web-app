@@ -68,6 +68,7 @@ function parseMarkdownFile($filePath) {
             // Markdown link
             $text = $match[1];
             $url = $match[2];
+            $title = $match[1];
         } elseif (!empty($match[3])) {
             // WikiLink
             $url = $match[3];
@@ -82,9 +83,11 @@ function parseMarkdownFile($filePath) {
     
             // Use alias if available, otherwise use the processed link itself
             $text = $match[4] ?? str_replace('%20', ' ', $url); // Decode spaces for alias display
+            $title = $match[4] ?? preg_replace('/\.md$/', '', str_replace('%20', ' ', $url));
+
         }
     
-        $links[] = ['text' => $text, 'url' => $url];
+        $links[] = ['text' => $text, 'url' => $url, 'title' => $title];
     }    
 
     return $links;
