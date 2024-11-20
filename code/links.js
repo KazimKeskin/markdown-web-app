@@ -1,31 +1,26 @@
 function updateLinks(section) {
     const links = section.querySelectorAll('a');
     links.forEach(link => {
-      console.log(link)
       const path = findFileFromLink(link.innerText, jsonData)
       if(path) {
         link.dataset.url = path
         link.href = path
+        link.addEventListener('click', function(event) {
+          
+            event.preventDefault();
+    
+            let hash = this.dataset.url
+            window.location.hash = hash;
+          });
       }
-      link.addEventListener('click', function(event) {
-
-      //   if (this.href) {const url = new URL(this.href); // Parse the URL
-      //   const isExternalLink = !url.hostname.includes('localhost'); // Change "yourdomain.com" to your domain
-
-      //   if (isExternalLink) {
-      //     // Allow default behavior for external links
-      //     return;
-      //   }
-      
-      // }
-      if (!path) {
-        return;
+      else if (link.href) {
+        console.log(link.href)
+        const url = new URL(link.href);
+        const isExternalLink = !url.hostname.includes('localhost'); // Change "yourdomain.com" to your domain
+        if (!isExternalLink && link.href.endsWith(".md")) {
+            link.replaceWith(document.createTextNode("[[" + link.innerText + "]]") );
+        }
       }
-        event.preventDefault();
-
-        let hash = this.dataset.url
-        window.location.hash = hash;
-      });
   });
 }
 
