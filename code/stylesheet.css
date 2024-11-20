@@ -14,14 +14,18 @@ li{
 
 #container {
   display:flex;
-  height: 100vh;
+  height: 100vh !important;
+}
+
+#container > * {
+  padding: 10px;
 }
 
 #sidebar {
-  height: 100vh;
+  height: calc(100vh - 20px); 
   width: 20%;
   max-width: 500px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 #fileList{
@@ -29,7 +33,7 @@ li{
 }
 
 #backlinks {
-  height: 100vh;
+  height: calc(100vh - 20px); 
   width: 10%;
   min-width: 100px;
   margin-left: 0px;
@@ -37,13 +41,13 @@ li{
 }
 
 #page {
-  overflow: scroll;
+  overflow: auto;
   width: 100%;
   padding: 20px;
 }
 
 #links {
-  height: 100vh;
+  height: calc(100vh - 20px); 
   width: 10%;
   min-width: 100px;
   margin-left: 0px;
@@ -51,9 +55,15 @@ li{
 }
 
 #headingsSection {
-  height: 100vh;
+  height: calc(100vh - 20px); 
   width: 10%;
   min-width: 100px;
   margin-left: 0px;
   margin-right: 10px;
+  text-decoration: none;
+}
+
+#headingsSection a{
+  color: black;
+  font-weight: 550;
 }
