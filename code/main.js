@@ -104,14 +104,18 @@ function findFileInJSON(hash, jsonData) {
 
 
 function renderPage(item) {
-  clearPage()
-  console.log(item)
-  addContent(item).then(() => {
+  clearPage();
+  addMeta(item);
+  addContent(item)
+    .then(() => {
       updateLinks(backlinkSection);
       updateLinks(linkSection);
       updateLinks(page);
-  });
-  addMeta(item)
+      listMarkdownHeadings(item.value);
+    })
+    .catch(error => {
+      console.error("Error adding content:", error);
+    });
 }
 
 
