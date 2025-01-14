@@ -1,7 +1,7 @@
 function updateLinks(section) {
     const links = section.querySelectorAll('a');
     links.forEach(link => {
-      const path = findFileFromLink(link.innerText, jsonData)
+      const path = findFileFromLink(link.getAttribute('href'), jsonData)
       if(path) {
         link.dataset.url = path
         link.href = path
@@ -27,7 +27,7 @@ function updateLinks(section) {
 
 function findFileFromLink(href, jsonData) {
   for (const key in jsonData) {
-    if (jsonData[key].title == href) {
+    if (jsonData[key].filepath == href) {
       return jsonData[key].filepath;
     }
   }
@@ -46,7 +46,7 @@ function displayBacklinks(file) {
     const backlinkLink = document.createElement('a');
 
     backlinkLink.textContent = linkedFile.title;
-    backlinkLink.href = linkedFile.id;
+    backlinkLink.href = linkedFile.filepath;
     backlinkLink.dataset.id= linkedFile.id;
     backlinkLink.dataset.url= linkedFile.filepath;
 
