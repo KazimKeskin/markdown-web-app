@@ -14,14 +14,28 @@ function updateLinks(section) {
           });
       }
       else if (link.href) {
-        console.log(link.href)
-        const url = new URL(link.href);
-        const isExternalLink = !url.hostname.includes('localhost'); // Change "yourdomain.com" to your domain
-        if (!isExternalLink && link.href.endsWith(".md")) {
-            link.replaceWith(document.createTextNode("[[" + link.innerText + "]]") );
-        }
+        validateAsset(link);
       }
   });
+}
+
+async function validateAsset(link) {
+    const url = link.href;
+    const isInternal = new URL(url, window.location.origin).origin === window.location.origin;
+    try {
+        if (isInternal) {
+            const request = new XMLHttpRequest();
+            request.open('HEAD', url, false);
+            request.send();
+            if (request.status < 200 || request.status >= 300) {
+                replaceLinkWithText(link);
+            }
+        }
+    } catch (error) {
+        if (isInternal) {
+            replaceLinkWithText(link);
+        }
+    }
 }
 
 
