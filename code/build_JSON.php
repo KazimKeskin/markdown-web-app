@@ -46,7 +46,7 @@ function generateFolderStructureJSON(&$jsonData, $dir, $depthIndex = 0) {
                     'dateCreated' => filectime($itemPath),
                     'dateModified' => filemtime($itemPath),
                     'depthIndex' => $depthIndex,
-                    'value' => file_get_contents($itemPath)
+                    'content' => file_get_contents($itemPath)
                 ];
             }
         }
@@ -95,7 +95,7 @@ function addLinks($jsonData) {
       if ($file['type'] === 'file' && pathinfo($file['filename'], PATHINFO_EXTENSION) === 'md') {
           // Parse the Markdown file and extract links
           $filePath = $file['filepath'];
-          $links = extractLinks($file['value']);
+          $links = extractLinks($file['content']);
 
           // Add links to the current file
           $file['links'] = $links;
@@ -107,7 +107,7 @@ function addLinks($jsonData) {
             // print_r( $otherFile);
               if ($otherFile['type'] === 'file' && $otherFile['id'] !== $file['id']) {
                   // Check if the current file is referenced in the other file
-                  if (strpos($otherFile['value'], $file['title']) !== false) {
+                  if (strpos($otherFile['content'], $file['title']) !== false) {
                       // Add the other file as a backlink to the current file
                       $backlink = [];
                       $backlink['id'] = $otherFile['id'];
