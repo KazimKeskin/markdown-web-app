@@ -77,13 +77,13 @@ function extractLinks($content) {
             $text = $match[4] ?? str_replace('%20', ' ', $url);
             $title = $match[4] ?? preg_replace('/\.md$/', '', str_replace('%20', ' ', $url));
         }
-
-            $links[] = [
-                'text' => $text,
-                'url' => $url,
-                'title' => $title,
-            ];
-
+        if (!empty($url)) {
+                $links[] = [
+                    'text' => $text,
+                    'url' => $url,
+                    'title' => $title,
+                ];
+        }
     }
 
     return $links;
@@ -92,7 +92,7 @@ function extractLinks($content) {
 function addLinks($jsonData) {
   foreach ($jsonData as &$file) {
     if (array_key_exists('type', $file)) {
-      if ($file['type'] === 'file' && pathinfo($file['filename'], PATHINFO_EXTENSION) === 'md') {
+      if ($file['type'] === 'md') {
           // Parse the Markdown file and extract links
           $filePath = $file['filepath'];
           $links = extractLinks($file['content']);
@@ -102,12 +102,9 @@ function addLinks($jsonData) {
 
           // Iterate through other files to add backlinks
           foreach ($jsonData as &$otherFile) {
-            if (array_key_exists('type', $otherFile)) {
-
-            // print_r( $otherFile);
-              if ($otherFile['type'] === 'file' && $otherFile['id'] !== $file['id']) {
+              if ($otherFile['id'] !== $file['id']) {
                   // Check if the current file is referenced in the other file
-                  if (strpos($otherFile['content'], $file['title']) !== false) {
+                  if ($otherFile['type'] === 'md' && strpos($otherFile['content'], $file['title']) !== false) {
                       // Add the other file as a backlink to the current file
                       $backlink = [];
                       $backlink['id'] = $otherFile['id'];
@@ -123,7 +120,6 @@ function addLinks($jsonData) {
                     }
                   }
               }
-          }
       }}
   }}
 
