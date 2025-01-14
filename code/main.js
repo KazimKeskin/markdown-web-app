@@ -130,21 +130,6 @@ function clearPage() {
 }
 
 
-function renderPage(item) {
-  clearPage();
-  addMeta(item);
-  addContent(item)
-    .then(() => {
-      updateLinks(backlinkSection);
-      updateLinks(linkSection);
-      updateLinks(page);
-      listMarkdownHeadings(item.value);
-    })
-    .catch(error => {
-      console.error("Error adding content:", error);
-    });
-}
-
 function addContent(item) {
   return new Promise((resolve) => {
     let content = item.value;
