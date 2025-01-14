@@ -28,12 +28,12 @@ async function validateAsset(link) {
             request.open('HEAD', url, false);
             request.send();
             if (request.status < 200 || request.status >= 300) {
-                replaceLinkWithText(link);
+                link.replaceWith(document.createTextNode("[[" + link.textContent + "]]") );
             }
         }
     } catch (error) {
         if (isInternal) {
-            replaceLinkWithText(link);
+            link.replaceWith(document.createTextNode("[[" + link.textContent + "]]") );
         }
     }
 }
