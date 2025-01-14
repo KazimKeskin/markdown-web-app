@@ -55,9 +55,7 @@ function generateFolderStructureJSON(&$jsonData, $dir, $depthIndex = 0) {
     return $jsonData;
 }
 
-function parseMarkdownFile($filePath) {
-    $content = file_get_contents($filePath);
-
+function extractLinks($content) {
     // Regular expression to match Markdown links and WikiLinks
     $pattern = '/\[(.*?)\]\((.*?)\)|\[\[(.*?)(?:\|(.*?))?\]\]/';
     preg_match_all($pattern, $content, $matches, PREG_SET_ORDER);
@@ -65,30 +63,28 @@ function parseMarkdownFile($filePath) {
     $links = [];
     foreach ($matches as $match) {
         if (!empty($match[1]) && !empty($match[2])) {
-            // Markdown link
             $text = $match[1];
             $url = $match[2];
             $title = $match[1];
         } elseif (!empty($match[3])) {
-            // WikiLink
             $url = $match[3];
-            
-            // Ensure the link has a file extension
-            if (!preg_match('/\.[a-zA-Z0-9]+$/', $url)) {
-                $url .= '.md'; // Append .md if no extension exists
-            }
-            
-            // Encode spaces in the URL
-            $url = str_replace(' ', '%20', $url);
-    
-            // Use alias if available, otherwise use the processed link itself
-            $text = $match[4] ?? str_replace('%20', ' ', $url); // Decode spaces for alias display
-            $title = $match[4] ?? preg_replace('/\.md$/', '', str_replace('%20', ' ', $url));
 
+            if (!preg_match('/\.[a-zA-Z0-9]+$/', $url)) {
+                $url .= '.md';
+            }
+
+            $url = str_replace(' ', '%20', $url);
+            $text = $match[4] ?? str_replace('%20', ' ', $url);
+            $title = $match[4] ?? preg_replace('/\.md$/', '', str_replace('%20', ' ', $url));
         }
-    
-        $links[] = ['text' => $text, 'url' => $url, 'title' => $title];
-    }    
+
+            $links[] = [
+                'text' => $text,
+                'url' => $url,
+                'title' => $title,
+            ];
+
+    }
 
     return $links;
 }
@@ -99,7 +95,7 @@ function addLinks($jsonData) {
       if ($file['type'] === 'file' && pathinfo($file['filename'], PATHINFO_EXTENSION) === 'md') {
           // Parse the Markdown file and extract links
           $filePath = $file['filepath'];
-          $links = parseMarkdownFile($filePath);
+          $links = extractLinks($file['value']);
 
           // Add links to the current file
           $file['links'] = $links;
