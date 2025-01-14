@@ -111,7 +111,7 @@ function renderPage(item) {
       updateLinks(backlinkSection);
       updateLinks(linkSection);
       updateLinks(page);
-      listMarkdownHeadings(item.value);
+      listMarkdownHeadings(item.content);
     })
     .catch(error => {
       console.error("Error adding content:", error);
@@ -132,7 +132,7 @@ function clearPage() {
 
 function addContent(item) {
   return new Promise((resolve) => {
-    let content = item.value;
+    let content = item.content;
     content = parseLinks(content);
     markdownContent.mdContent = content;
     displayBacklinks(item);
