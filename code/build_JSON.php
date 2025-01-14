@@ -90,39 +90,41 @@ function extractLinks($content) {
 }
 
 function addLinks($jsonData) {
-  foreach ($jsonData as &$file) {
-    if (array_key_exists('type', $file)) {
-      if ($file['type'] === 'md') {
-          // Parse the Markdown file and extract links
-          $filePath = $file['filepath'];
-          $links = extractLinks($file['content']);
+    foreach ($jsonData as &$file) {
+        if ($file['type'] !== 'folder') {
 
-          // Add links to the current file
-          $file['links'] = $links;
+          $file['links'] = extractLinks($file['content']);
 
-          // Iterate through other files to add backlinks
           foreach ($jsonData as &$otherFile) {
-              if ($otherFile['id'] !== $file['id']) {
-                  // Check if the current file is referenced in the other file
-                  if ($otherFile['type'] === 'md' && strpos($otherFile['content'], $file['title']) !== false) {
-                      // Add the other file as a backlink to the current file
-                      $backlink = [];
-                      $backlink['id'] = $otherFile['id'];
-                      $backlink['filepath'] = $otherFile['filepath'];
-                      $backlink['title'] = $otherFile['title'];
-                      $file['backlinks'][] = $backlink;
-                  }
-                  foreach ($file['links'] as $key => $val) {
-                    if ($otherFile['filename'] === $val['url']) {
-                      $file['links'][$key]['filepath'] = $otherFile['filepath'];
-                      $file['links'][$key]['id'] = $otherFile['id'];
-
-                    }
-                  }
+              if ($otherFile['type'] !== 'folder' && $otherFile['id'] !== $file['id']) {
+                updateLinks($file, $otherFile); // find the linked file and add data
+                addBacklinks($file, $otherFile);
               }
-      }}
-  }}
+          }
+        }
+    }
 
-  return $jsonData;
+    return $jsonData;
 }
+
+function updateLinks(&$file, &$otherFile) {
+    foreach ($file['links'] as $key => $val) {
+       if ($otherFile['filename'] === $val['url']) {
+           $file['links'][$key]['filepath'] = $otherFile['filepath'];
+           $file['links'][$key]['id'] = $otherFile['id'];
+       }
+    }
+}
+
+function addBacklinks(&$file, &$otherFile) {
+    if (strpos($otherFile['content'], $file['title']) !== false) {
+       $file['backlinks'][] = [
+           'id' => $otherFile['id'],
+           'filepath' => $otherFile['filepath'],
+           'title' => $otherFile['title']
+       ];
+    }
+}
+
+
 ?>
