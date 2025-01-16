@@ -28,10 +28,10 @@ function createNestedList(jsonData, fileList) {
     li.textContent = title;
     li.id = jsonData[key].filepath;
     li.dataset.dateModified = jsonData[key].dateModified
-    if (jsonData[key].type === 'folder') {
+    if (jsonData[key].filetype === 'folder') {
       li.classList.add('folder');
     }
-    else if (jsonData[key].type === 'file') {
+    else if (jsonData[key].filetype === 'file') {
       li.classList.add('file');
     }
     li.addEventListener('click', () => {
@@ -141,8 +141,8 @@ function addContent(item) {
                    .replace(/>/g, '&gt;')
                    .replace(/"/g, '&quot;')
                    .replace(/'/g, '&#39;');
-   if (codeTypes.includes(item.type)) {
-     markdownContent.mdContent = `<pre><code class="language-${item.type}">${content}</code></pre>`;
+   if (codeTypes.includes(item.filetype)) {
+     markdownContent.mdContent = `<pre><code class="language-${item.filetype}">${content}</code></pre>`;
    }
    else {
      markdownContent.mdContent = content;
