@@ -29,7 +29,7 @@ function generateFolderStructureJSON(&$jsonData, $dir, $depthIndex = 0) {
                     'filepath' => $dir . $item,
                     'filename' => $item,
                     'title' => $item,
-                    'type' => 'folder',
+                    'filetype' => 'folder',
                     'relativePath' => $dir,
                     'dateModified' => filemtime($itemPath),
                     'depthIndex' => $depthIndex
@@ -41,7 +41,7 @@ function generateFolderStructureJSON(&$jsonData, $dir, $depthIndex = 0) {
                     'filepath' => $dir  . $item,
                     'filename' => $item,
                     'title' => pathinfo($item, PATHINFO_FILENAME),
-                    'type' => 'file',
+                    'filetype' => 'file',
                     'relativePath' => $dir,
                     'dateCreated' => filectime($itemPath),
                     'dateModified' => filemtime($itemPath),
@@ -91,12 +91,12 @@ function extractLinks($content) {
 
 function addLinks($jsonData) {
     foreach ($jsonData as &$file) {
-        if ($file['type'] !== 'folder') {
+        if ($file['filetype'] !== 'folder') {
 
           $file['links'] = extractLinks($file['content']);
 
           foreach ($jsonData as &$otherFile) {
-              if ($otherFile['type'] !== 'folder' && $otherFile['id'] !== $file['id']) {
+              if ($otherFile['filetype'] !== 'folder' && $otherFile['id'] !== $file['id']) {
                 updateLinks($file, $otherFile); // find the linked file and add data
                 addBacklinks($file, $otherFile);
               }
