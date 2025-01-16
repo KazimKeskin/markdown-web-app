@@ -2,54 +2,63 @@
 ini_set('memory_limit', '512M'); // or a higher value if needed
 header('Content-Type: application/json');
 
-$directoryPath = '../';
-$jsonData = generateFolderStructureJSON($jsonData, $directoryPath);
+$baseDir = '../';
+$jsonData = generateFolderStructureJSON($jsonData, $baseDir, $baseDir);
 $jsonData = addLinks($jsonData);
 echo json_encode($jsonData);
 
-function generateFolderStructureJSON(&$jsonData, $dir, $depthIndex = 0) {
-    $array = ['md', 'html', 'php', 'js', 'css', 'txt']; // you can add more file types. note that html can cause issues
+function is_dir_empty($dir) {
+    $items = scandir($dir);
+    return count($items) <= 2;
+}
 
-    if ($dir !== './') {
-            $dir = rtrim($dir, '/') . '/';  // Ensure the directory path has a trailing '/'
-        }
+function generateFolderStructureJSON(&$jsonData, $baseDir, $dir, $depthIndex = 0) {
+    $allowedExtensions = ['md', 'html', 'php', 'js', 'css', 'txt'];
+
+    $dir = rtrim($dir, '/') . '/';
+
     if (is_dir($dir)) {
-        $items = scandir($dir);
 
-        foreach ($items as $item) {
-            if (substr($item, 0, 1) === '.') {
-                continue;
-            }
+      $items = scandir($dir);
+      foreach ($items as $item) {
 
-            $itemPath = $dir . '/' . $item;
+        //ignore hidden directories
+          if ($item === '.' || $item === '..') {
+              continue;
+          }
 
-            if (is_dir($itemPath)) {
-                $jsonData[] = [
-                    'id' => uniqid(),
-                    'filepath' => $dir . $item,
-                    'filename' => $item,
-                    'title' => $item,
-                    'filetype' => 'folder',
-                    'relativePath' => $dir,
-                    'dateModified' => filemtime($itemPath),
-                    'depthIndex' => $depthIndex
-                ];
-                generateFolderStructureJSON($jsonData, $itemPath, $depthIndex + 1);
-            } elseif (in_array(pathinfo($itemPath, PATHINFO_EXTENSION), $array)) {
-                $jsonData[] = [
-                    'id' => uniqid(),
-                    'filepath' => $dir  . $item,
-                    'filename' => $item,
-                    'title' => pathinfo($item, PATHINFO_FILENAME),
-                    'filetype' => 'file',
-                    'relativePath' => $dir,
-                    'dateCreated' => filectime($itemPath),
-                    'dateModified' => filemtime($itemPath),
-                    'depthIndex' => $depthIndex,
-                    'content' => file_get_contents($itemPath)
-                ];
-            }
-        }
+          $itemPath = $dir . $item;
+          $relativePath = ltrim(str_replace(rtrim($baseDir, '/') . '/', '', $itemPath), '/');
+
+          if (is_dir($itemPath)) {
+
+                  $jsonData[] = [
+                      'id' => uniqid(),
+                      'filepath' => str_replace('\\', '/', $relativePath),
+                      'filename' => $item,
+                      'title' => $item,
+                      'filetype' => 'folder',
+                      'dateCreated' => filectime($itemPath),
+                      'dateModified' => filemtime($itemPath),
+                      'content' => null
+                  ];
+
+                  generateFolderStructureJSON($jsonData, $baseDir, $itemPath, $depthIndex + 1);
+          }
+          elseif (in_array(pathinfo($itemPath, PATHINFO_EXTENSION), $allowedExtensions)) {
+
+                  $jsonData[] = [
+                      'id' => uniqid(),
+                      'filepath' => str_replace('\\', '/', $relativePath),
+                      'filename' => $item,
+                      'title' => pathinfo($item, PATHINFO_FILENAME),
+                      'filetype' => pathinfo($item, PATHINFO_EXTENSION),
+                      'dateCreated' => filectime($itemPath),
+                      'dateModified' => filemtime($itemPath),
+                      'content' => file_get_contents($itemPath)
+                  ];
+          }
+      }
     }
 
     return $jsonData;
@@ -77,12 +86,13 @@ function extractLinks($content) {
             $text = $match[4] ?? str_replace('%20', ' ', $url);
             $title = $match[4] ?? preg_replace('/\.md$/', '', str_replace('%20', ' ', $url));
         }
+
         if (!empty($url)) {
-                $links[] = [
-                    'text' => $text,
-                    'url' => $url,
-                    'title' => $title,
-                ];
+            $links[] = [
+                'text' => $text,
+                'url' => $url,
+                'title' => $title,
+            ];
         }
     }
 
