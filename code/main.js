@@ -12,6 +12,8 @@ const headingsSection = document.getElementById('headingsSection');
 let jsonData;
 let notebookLoaded = false;
 
+let codeTypes = ['js', 'php', 'css', 'html'];
+
 window.onload = async () => {
   await load(); // Ensure data is loaded
   window.onhashchange = loadPage; // Attach after data is ready
@@ -132,11 +134,21 @@ function clearPage() {
 
 function addContent(item) {
   return new Promise((resolve) => {
-    let content = item.content;
-    content = parseLinks(content);
-    markdownContent.mdContent = content;
-    displayBacklinks(item);
-    displayLinks(item);
+  let content = item.content;
+  content = parseLinks(content);
+  content = content.replace(/&/g, '&amp;')
+                   .replace(/</g, '&lt;')
+                   .replace(/>/g, '&gt;')
+                   .replace(/"/g, '&quot;')
+                   .replace(/'/g, '&#39;');
+   if (codeTypes.includes(item.type)) {
+     markdownContent.mdContent = `<pre><code class="language-${item.type}">${content}</code></pre>`;
+   }
+   else {
+     markdownContent.mdContent = content;
+   }
+   displayBacklinks(item);
+   displayLinks(item);
 
     markdownContent.addEventListener('md-render', function() {
       clearTimeout(timeoutId);
