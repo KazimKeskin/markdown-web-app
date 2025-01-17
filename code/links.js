@@ -6,9 +6,9 @@ function updateLinks(section) {
         link.dataset.url = path
         link.href = path
         link.addEventListener('click', function(event) {
-          
+
             event.preventDefault();
-    
+
             let hash = this.dataset.url
             window.location.hash = hash;
           });
@@ -123,13 +123,13 @@ function displayLinks(file) {
 }
 
 
-function listMarkdownHeadings(markdownText) {
+function listMarkdownHeadings(content) {
   const headingRegex = /^(#{1,6})\s+(.*)$/gm;
 
   let match;
   const headingsList = document.createElement('ul');
 
-  while ((match = headingRegex.exec(markdownText)) !== null) {
+  while ((match = headingRegex.exec(content)) !== null) {
     const headingLevel = match[1].length;
     const headingText = match[2];
 
@@ -141,18 +141,18 @@ function listMarkdownHeadings(markdownText) {
 
     headingLink.addEventListener('click', function(event) {
       event.preventDefault();
-    
+
       const headings = document.querySelectorAll(`#markdownContent h${headingLevel}`);
-    
+
       const targetHeading = Array.from(headings).find(heading => heading.textContent.trim() === headingText.trim());
-    
+
       if (targetHeading) {
         targetHeading.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         console.warn('Target heading not found:', headingText);
       }
     });
-    
+
 
     listItem.appendChild(headingLink);
     headingsList.appendChild(listItem);
