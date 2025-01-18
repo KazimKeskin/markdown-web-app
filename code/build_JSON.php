@@ -5,6 +5,7 @@ header('Content-Type: application/json');
 $baseDir = '../';
 $jsonData = generateFolderStructureJSON($jsonData, $baseDir, $baseDir);
 $jsonData = addLinks($jsonData);
+$jsonData = addTags($jsonData);
 echo json_encode($jsonData);
 
 function is_dir_empty($dir) {
@@ -119,7 +120,7 @@ function addLinks($jsonData) {
 
 function updateLinks(&$file, &$otherFile) {
     foreach ($file['links'] as $key => $val) {
-       if ($otherFile['filename'] === $val['url']) {
+       if ($otherFile['filepath'] === urldecode($val['url'])) {
            $file['links'][$key]['filepath'] = $otherFile['filepath'];
            $file['links'][$key]['id'] = $otherFile['id'];
        }
@@ -136,5 +137,34 @@ function addBacklinks(&$file, &$otherFile) {
     }
 }
 
+function extractTags($content) {
+    $tags = [];
+
+    // Extract YAML frontmatter tags
+    $yamlPattern = '/^tags:\s*(.+)$/m';
+    if (preg_match($yamlPattern, $content, $yamlMatch)) {
+        $yamlTags = preg_split('/[\s,]+/', trim($yamlMatch[1]));
+        $tags = array_merge($tags, $yamlTags);
+    }
+
+    // Extract inline hashtags
+    $hashtagPattern = '/#(\w+)/';
+    if (preg_match_all($hashtagPattern, $content, $hashtagMatches)) {
+        $inlineTags = $hashtagMatches[1];
+        $tags = array_merge($tags, $inlineTags);
+    }
+
+    return $tags;
+}
+
+function addTags(&$jsonData) {
+    foreach ($jsonData as &$file) {
+      if ($file['filetype'] !== 'folder') {
+          $file['tags'] = extractTags($file['content']);
+      }
+    }
+    
+    return $jsonData;
+}
 
 ?>
