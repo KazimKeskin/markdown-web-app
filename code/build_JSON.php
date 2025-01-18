@@ -2,10 +2,12 @@
 ini_set('memory_limit', '512M'); // or a higher value if needed
 header('Content-Type: application/json');
 
-$baseDir = '../';
-$jsonData = generateFolderStructureJSON($jsonData, $baseDir, $baseDir);
-$jsonData = addLinks($jsonData);
-$jsonData = addTags($jsonData);
+$config = json_decode(file_get_contents('config.json'), true);
+
+$jsonData = generateFolderStructureJSON($jsonData, $config['baseDirectory'], $config);
+$config['addLinks'] && $jsonData = addLinks($jsonData);
+$config['addTags'] && $jsonData = addTags($jsonData);
+
 echo json_encode($jsonData);
 
 function is_dir_empty($dir) {
@@ -13,9 +15,7 @@ function is_dir_empty($dir) {
     return count($items) <= 2;
 }
 
-function generateFolderStructureJSON(&$jsonData, $baseDir, $dir, $depthIndex = 0) {
-    $allowedExtensions = ['md', 'html', 'php', 'js', 'css', 'txt'];
-
+function generateFolderStructureJSON(&$jsonData, $dir, $config, $depthIndex = 0) {
     $dir = rtrim($dir, '/') . '/';
 
     if (is_dir($dir)) {
@@ -23,13 +23,13 @@ function generateFolderStructureJSON(&$jsonData, $baseDir, $dir, $depthIndex = 0
       $items = scandir($dir);
       foreach ($items as $item) {
 
-        //ignore hidden directories
-          if ($item === '.' || $item === '..') {
+          //ignore hidden directories
+          if ($item === '.' || $item === '..' || in_array($item, $config['hiddenDirectories'])) {
               continue;
           }
 
           $itemPath = $dir . $item;
-          $relativePath = ltrim(str_replace(rtrim($baseDir, '/') . '/', '', $itemPath), '/');
+          $relativePath = ltrim(str_replace(rtrim($config['baseDirectory'], '/') . '/', '', $itemPath), '/');
 
           if (is_dir($itemPath)) {
 
@@ -44,9 +44,9 @@ function generateFolderStructureJSON(&$jsonData, $baseDir, $dir, $depthIndex = 0
                       'content' => null
                   ];
 
-                  generateFolderStructureJSON($jsonData, $baseDir, $itemPath, $depthIndex + 1);
+                  generateFolderStructureJSON($jsonData, $itemPath, $config, $depthIndex + 1);
           }
-          elseif (in_array(pathinfo($itemPath, PATHINFO_EXTENSION), $allowedExtensions)) {
+          elseif (in_array(pathinfo($itemPath, PATHINFO_EXTENSION), $config['includedFiletypes'])) {
 
                   $jsonData[] = [
                       'id' => uniqid(),
@@ -66,8 +66,7 @@ function generateFolderStructureJSON(&$jsonData, $baseDir, $dir, $depthIndex = 0
 }
 
 function extractLinks($content) {
-    // Regular expression to match Markdown links and WikiLinks
-    $pattern = '/\[(.*?)\]\((.*?)\)|\[\[(.*?)(?:\|(.*?))?\]\]/';
+    $pattern = '/\[(.*?)\]\((.*?)\)|\[\[(.*?)(?:\|(.*?))?\]\]/'; // Match Markdown links and WikiLinks
     preg_match_all($pattern, $content, $matches, PREG_SET_ORDER);
 
     $links = [];
@@ -86,7 +85,6 @@ function extractLinks($content) {
             $url = rawurlencode($url);
             $text = $match[4] ?? urldecode($url);
             $title = $match[4] ?? preg_replace('/\.md$/', '', urldecode($url));
-            
         }
 
         if (!empty($url)) {
@@ -104,13 +102,11 @@ function extractLinks($content) {
 function addLinks($jsonData) {
     foreach ($jsonData as &$file) {
         if ($file['filetype'] !== 'folder') {
-
           $file['links'] = extractLinks($file['content']);
 
           foreach ($jsonData as &$otherFile) {
               if ($otherFile['filetype'] !== 'folder' && $otherFile['id'] !== $file['id']) {
-                updateLinks($file, $otherFile); // find the linked file and add data
-                
+                updateLinks($file, $otherFile);
               }
           }
         }
@@ -124,6 +120,7 @@ function updateLinks(&$file, &$otherFile) {
        if ($otherFile['filepath'] === urldecode($val['url'])) {
            $file['links'][$key]['filepath'] = $otherFile['filepath'];
            $file['links'][$key]['id'] = $otherFile['id'];
+
            $otherFile['backlinks'][] = [
                'id' => $file['id'],
                'filepath' => $file['filepath'],
@@ -159,7 +156,7 @@ function addTags(&$jsonData) {
           $file['tags'] = extractTags($file['content']);
       }
     }
-    
+
     return $jsonData;
 }
 
