@@ -83,9 +83,10 @@ function extractLinks($content) {
                 $url .= '.md';
             }
 
-            $url = str_replace(' ', '%20', $url);
-            $text = $match[4] ?? str_replace('%20', ' ', $url);
-            $title = $match[4] ?? preg_replace('/\.md$/', '', str_replace('%20', ' ', $url));
+            $url = rawurlencode($url);
+            $text = $match[4] ?? urldecode($url);
+            $title = $match[4] ?? preg_replace('/\.md$/', '', urldecode($url));
+            
         }
 
         if (!empty($url)) {
