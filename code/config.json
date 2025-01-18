@@ -1,6 +1,6 @@
 {
   "host": "localhost",
-  "baseDirectory": "./",
+  "baseDirectory": "../",
   "hiddenDirectories": [],
   "includedFiletypes": ["md", "html", "php", "js", "css", "txt"],
   "addLinks": true,
