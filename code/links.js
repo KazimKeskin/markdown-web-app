@@ -77,7 +77,7 @@ function displayBacklinks(file) {
 
 
 function parseLinks(text) {
-  return text.replace(/\[\[([^\]]+)\]\]/g, (match, content) => {
+  return text.replace(/!?\[\[([^\]]+)\]\]/g, (match, content) => {
     const [link, alias] = content.split('|').map(part => part.trim());
     return convertLinkToMarkdown(link, alias);
   });
