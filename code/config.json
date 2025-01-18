@@ -1,0 +1,13 @@
+{
+  "host": "localhost",
+  "baseDirectory": "./",
+  "hiddenDirectories": [],
+  "includedFiletypes": ["md", "html", "php", "js", "css", "txt"],
+  "addLinks": true,
+  "addTags": true,
+  "codeTypes": ["js", "php", "css", "html"],
+  "listOptionsDefaults": {
+    "listView": "nested",
+    "folderStates": []
+  }
+}
