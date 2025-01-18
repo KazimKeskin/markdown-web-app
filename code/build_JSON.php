@@ -109,7 +109,7 @@ function addLinks($jsonData) {
           foreach ($jsonData as &$otherFile) {
               if ($otherFile['filetype'] !== 'folder' && $otherFile['id'] !== $file['id']) {
                 updateLinks($file, $otherFile); // find the linked file and add data
-                addBacklinks($file, $otherFile);
+                
               }
           }
         }
@@ -123,17 +123,12 @@ function updateLinks(&$file, &$otherFile) {
        if ($otherFile['filepath'] === urldecode($val['url'])) {
            $file['links'][$key]['filepath'] = $otherFile['filepath'];
            $file['links'][$key]['id'] = $otherFile['id'];
+           $otherFile['backlinks'][] = [
+               'id' => $file['id'],
+               'filepath' => $file['filepath'],
+               'title' => $file['title']
+           ];
        }
-    }
-}
-
-function addBacklinks(&$file, &$otherFile) {
-    if (strpos($otherFile['content'], $file['title']) !== false) {
-       $file['backlinks'][] = [
-           'id' => $otherFile['id'],
-           'filepath' => $otherFile['filepath'],
-           'title' => $otherFile['title']
-       ];
     }
 }
 
