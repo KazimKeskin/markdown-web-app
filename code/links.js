@@ -41,7 +41,7 @@ async function validateAsset(link) {
 
 function findFileFromLink(href, jsonData) {
   for (const key in jsonData) {
-    if (jsonData[key].filepath === decodeURI(href)) {
+    if (jsonData[key].filepath === decodeURIComponent(href)) {
       return jsonData[key].filepath;
     }
   }
