@@ -82,9 +82,9 @@ function extractLinks($content) {
                 $url .= '.md';
             }
 
-            $url = rawurlencode($url);
-            $text = $match[4] ?? urldecode($url);
-            $title = $match[4] ?? preg_replace('/\.md$/', '', urldecode($url));
+            $url = str_replace(' ', '%20', $url);
+            $text = $match[4] ?? str_replace('%20', ' ', $url);
+            $title = $match[4] ?? preg_replace('/\.md$/', '', str_replace('%20', ' ', $url));
         }
 
         if (!empty($url)) {
@@ -117,7 +117,7 @@ function addLinks($jsonData) {
 
 function updateLinks(&$file, &$otherFile) {
     foreach ($file['links'] as $key => $val) {
-       if ($otherFile['filepath'] === urldecode($val['url'])) {
+       if ($otherFile['filepath'] === str_replace('%20', ' ', $val['url'])) {
            $file['links'][$key]['filepath'] = $otherFile['filepath'];
            $file['links'][$key]['id'] = $otherFile['id'];
 
