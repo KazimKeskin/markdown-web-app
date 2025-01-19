@@ -22,7 +22,8 @@ function buildList(jsonData, listOptions) {
         if (item.filetype != 'folder') {
           const li = document.createElement('li');
           li.textContent = item.title || item.filename;
-          li.id = item.filepath;
+          li.id = item.id;
+          li.dataset.id = item.filepath;
           li.dataset.dateModified = item.dateModified || '';
           li.dataset.dateCreated = item.dateCreated || '';
           li.classList.add('file');
@@ -61,7 +62,8 @@ function addListElement(item, folderMap, fragment) {
   }
 
   li.textContent = item.title || item.filename;
-  li.id = item.filepath;
+  li.id = item.id;
+  li.dataset.id = item.filepath;
   li.dataset.dateModified = item.dateModified || '';
   li.dataset.dateCreated = item.dateCreated || '';
   if (itemAlreadyCreated) {
@@ -110,7 +112,7 @@ function handleFolderClick(li) {
 
 
 function handleFileClick(li) {
-  window.location.hash = li.id;
+  window.location.hash = li.dataset.id;
   const allLiElements = document.getElementById('sidebar').querySelectorAll('li');
   allLiElements.forEach(el => el.classList.remove('active'));
   li.classList.add('active');
@@ -138,4 +140,3 @@ function updateFolderState(id, isCollapsed) {
     listOptions.folderStates.push({ id, collapsed: isCollapsed });
   }
 }
-
