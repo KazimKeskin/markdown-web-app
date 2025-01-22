@@ -86,7 +86,7 @@ function parseLinks(text) {
 
 function convertLinkToMarkdown(link, alias = link) {
   const formattedLink = ensureFileExtension(link);
-  return `[${alias}](${encodeURIComponent(formattedLink)})`;
+  return `[${alias}](${formattedLink.replace(/ /g, "%20")})`;
 }
 
 
