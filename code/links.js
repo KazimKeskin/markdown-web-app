@@ -179,3 +179,17 @@ function listMarkdownHeadings(content) {
     // headingsSection.style.display = 'none';
   }
 }
+
+
+function updateEmbeddedLinks(section) {
+  const links = section.querySelectorAll('img');
+  links.forEach(link => {
+    const src = link.getAttribute('src');
+    const item = findFileInJSON(src, jsonData);
+    if (item && config.includedFiletypes.includes(item.filetype)) {
+      const mdBlock = document.createElement('md-block');
+      addContent(item, mdBlock);
+      link.parentNode.replaceChild(mdBlock, link);
+    }
+  });
+}
