@@ -9,10 +9,30 @@ const headingsSection = document.getElementById('headingsSection');
 const linkSection = document.getElementById('links');
 
 
+let config = {
+  "host": "localhost",
+  "baseDirectory": "../",
+  "hiddenDirectories": [],
+  "includedFiletypes": ["md", "html", "php", "js", "css", "txt"],
+  "addLinks": true,
+  "addTags": true,
+  "codeTypes": ["js", "php", "css", "html"],
+  "listOptionsDefaults": {
+    "listView": "nested",
+    "folderStates": []
+  }
+}
+
+fetch('code/config.json')
+  .then((response) => response.json())
+  .then((data) => {
+    config = { ...config, ...data };
+  })
+  .catch((error) => console.error('Error loading config:', error));
+
 let jsonData;
 let notebookLoaded = false;
 
-let codeTypes = ['js', 'php', 'css', 'html'];
 
 window.onload = async () => {
   await load();
