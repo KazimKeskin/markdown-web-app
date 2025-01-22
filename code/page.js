@@ -60,30 +60,38 @@ function addMeta(item) {
 
 function addContent(item) {
   return new Promise((resolve) => {
-  let content = item.content;
-  content = parseLinks(content);
-  content = content.replace(/&/g, '&amp;')
-                   .replace(/</g, '&lt;')
-                   .replace(/>/g, '&gt;')
-                   .replace(/"/g, '&quot;')
-                   .replace(/'/g, '&#39;');
-   if (codeTypes.includes(item.filetype)) {
+    let content = item.content;
+    content = parseLinks(content);
+    content = content.replace(/&/g, '&amp;')
+                     .replace(/</g, '&lt;')
+                     .replace(/>/g, '&gt;')
+                     .replace(/"/g, '&quot;')
+                     .replace(/'/g, '&#39;');
+    content = wrapYamlFrontMatter(content);
+    if (codeTypes.includes(item.filetype)) {
      markdownContent.mdContent = `<pre><code class="language-${item.filetype}">${content}</code></pre>`;
-   }
-   else {
+    }
+    else {
      markdownContent.mdContent = content;
-   }
-   displayBacklinks(item);
-   displayLinks(item);
-
+    }
+    displayBacklinks(item);
+    displayLinks(item);
+    
     markdownContent.addEventListener('md-render', function() {
       clearTimeout(timeoutId);
       resolve();
     }, { once: true });
-
+    
     timeoutId = setTimeout(() => {
       console.warn("md-render timeout! Resolving anyway.");
       reject(new Error("md-render timeout"));
     }, 500);
+  });
+}
+
+
+function wrapYamlFrontMatter(content) {
+  return content.replace(/^---([\s\S]*?)---/, (match, yamlContent) => {
+    return `<pre class="yaml-front-matter">---\n${yamlContent}\n---</pre>`;
   });
 }
