@@ -84,9 +84,14 @@ function parseLinks(text) {
 }
 
 
-function convertLinkToMarkdown(link, alias = link) {
+function convertLinkToMarkdown(link, alias = link, isEmbedded) {
   const formattedLink = ensureFileExtension(link);
-  return `[${alias}](${formattedLink.replace(/ /g, "%20")})`;
+  if (isEmbedded) {
+      return `![${alias}](${formattedLink.replace(/ /g, "%20")})`;
+    }
+  else {
+    return `[${alias}](${formattedLink.replace(/ /g, "%20")})`;
+  }
 }
 
 
