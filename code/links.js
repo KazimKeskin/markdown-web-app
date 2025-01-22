@@ -124,39 +124,53 @@ function displayLinks(file) {
 
 
 function listMarkdownHeadings(content) {
-  const headingRegex = /^(#{1,6})\s+(.*)$/gm;
-
-  let match;
+  const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
   const headingsList = document.createElement('ul');
+  const listStack = [headingsList]; // Stack to manage nested lists
+  let currentDepth = 1; // Tracks the depth of the last heading processed
 
-  while ((match = headingRegex.exec(content)) !== null) {
-    const headingLevel = match[1].length;
-    const headingText = match[2];
+  if (headings.length > 0) {
+    headings.forEach((heading) => {
+      const depth = parseInt(heading.tagName.substring(1)); // Get heading depth
+      const text = heading.textContent.trim();
 
-    const listItem = document.createElement('li');
-    const headingLink = document.createElement('a');
+      const listItem = document.createElement('li');
+      const headingLink = document.createElement('a');
+      headingLink.textContent = text;
+      headingLink.href = '#' + text.toLowerCase().replace(/\s+/g, '-');
+      headingLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
 
-    headingLink.textContent = headingText;
-    headingLink.href = '#' + headingText.toLowerCase().replace(/\s+/g, '-');
 
-    headingLink.addEventListener('click', function(event) {
-      event.preventDefault();
 
-      const headings = document.querySelectorAll(`#markdownContent h${headingLevel}`);
+      listItem.classList.add(`heading-level-${depth}`);
+      listItem.appendChild(headingLink);
 
-      const targetHeading = Array.from(headings).find(heading => heading.textContent.trim() === headingText.trim());
+      if (depth > currentDepth) {
+         const nestedList = document.createElement('ul');
+         const parentListItem = listStack[listStack.length - 1].lastElementChild;
+        if (parentListItem) {
+          parentListItem.appendChild(nestedList);
+          listStack.push(nestedList);
+        }
+          } else if (depth < currentDepth) {
+            // Pop the stack until the correct level is reached
+            while (depth < currentDepth && listStack.length > 1) {
+              listStack.pop();
+              currentDepth--;
+            }
+          }
 
-      if (targetHeading) {
-        targetHeading.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        console.warn('Target heading not found:', headingText);
-      }
+      listStack[listStack.length - 1].appendChild(listItem);
+
+      currentDepth = depth;
     });
 
-
-    listItem.appendChild(headingLink);
-    headingsList.appendChild(listItem);
+    headingsSection.appendChild(headingsList);
+  } else {
+    // headingsSection.textContent = 'No headings found';
+    // headingsSection.style.display = 'none';
   }
-
-  headingsSection.appendChild(headingsList);
 }
