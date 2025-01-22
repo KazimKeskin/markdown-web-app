@@ -16,7 +16,7 @@ function loadPage() {
 
 function findFileInJSON(hash, jsonData) {
   for (const key in jsonData) {
-    if (jsonData[key].filepath === decodeURIComponent(hash)) {
+    if (jsonData[key].filepath === hash.replace(/%20/g, " ")) {
       return jsonData[key];
     }
   }
