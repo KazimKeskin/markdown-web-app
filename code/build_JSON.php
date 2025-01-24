@@ -148,17 +148,55 @@ function extractTags($content) {
     $tags = [];
 
     // Extract YAML frontmatter tags
-    $yamlPattern = '/^tags:\s*(.+)$/m';
+    $yamlPattern = '/^tags:\s*\n((?:\s*-\s*\w+\s*\n)+)/m';
     if (preg_match($yamlPattern, $content, $yamlMatch)) {
-        $yamlTags = preg_split('/[\s,]+/', trim($yamlMatch[1]));
-        $tags = array_merge($tags, $yamlTags);
+        preg_match_all('/-\s*(\w+)/', $yamlMatch[1], $yamlTags);
+        foreach ($yamlTags[1] as $yamlTag) {
+            $found = false;
+            foreach ($tags as &$tag) {
+                if ($tag['name'] === $yamlTag) {
+                    $tag['yamlCount']++;
+                    $tag['count']++;
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $tags[] = [
+                    'name' => $yamlTag,
+                    'yamlCount' => 1,
+                    'inlineCount' => 0,
+                    'count' => 1
+                ];
+            }
+        }
     }
 
     // Extract inline hashtags
     $hashtagPattern = '/#(\w+)/';
     if (preg_match_all($hashtagPattern, $content, $hashtagMatches)) {
         $inlineTags = $hashtagMatches[1];
-        $tags = array_merge($tags, $inlineTags);
+        foreach ($inlineTags as $inlineTag) {
+            $found = false;
+            foreach ($tags as &$tag) {
+                if ($tag['name'] === $inlineTag) {
+                    $tag['inlineCount']++;
+                    $tag['count']++;
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $tags[] = [
+                    'name' => $inlineTag,
+                    'yamlCount' => 0,
+                    'inlineCount' => 1,
+                    'count' => 1
+                ];
+            }
+        }
     }
 
     return $tags;
