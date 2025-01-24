@@ -45,7 +45,8 @@ function clearPage() {
   titleHeading.innerText = "";
   dateHeading.innerText = "";
   timeHeading.innerText = "";
-  backlinkSection.innerHTML = "";
+  backlinks.innerHTML = "";
+  tagSection.innerHTML = "";
   linkSection.innerHTML = "";
   headingsSection.innerHTML = "";
 }
