@@ -148,10 +148,10 @@ function extractTags($content) {
     $tags = [];
 
     // Extract YAML frontmatter tags
-    $yamlPattern = '/^tags:\s*\n((?:\s*-\s*\w+\s*\n)+)/m';
+    $yamlPattern = '/^tags:\s*(?:-?\s*([\w\s,]+)\s*)+/m';
     if (preg_match($yamlPattern, $content, $yamlMatch)) {
-        preg_match_all('/-\s*(\w+)/', $yamlMatch[1], $yamlTags);
-        foreach ($yamlTags[1] as $yamlTag) {
+        $yamlTags = preg_split('/[\s,]+/', trim($yamlMatch[1]));
+        foreach ($yamlTags as $yamlTag) {
             $found = false;
             foreach ($tags as &$tag) {
                 if ($tag['name'] === $yamlTag) {
