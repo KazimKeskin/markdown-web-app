@@ -83,6 +83,25 @@ function displayBacklinks(file) {
 }
 
 
+function displayTags(file) {
+  const tags = file.tags || [];
+  if (tags.length > 0) {
+    const tagList = document.createElement('ul');
+    tags.forEach(tag => {
+      const tagLi = document.createElement('li');
+      tagLi.textContent = `#${tag.name}`;
+      tagLi.dataset.count= tag.count;
+      tagList.appendChild(tagLi);
+    });
+
+    tagSection.appendChild(tagList);
+  } else {
+    // tagSection.textContent = "No tags found.";
+    // tagSection.style.display = 'none';
+  }
+}
+
+
 function parseLinks(text) {
   return text.replace(/!?\[\[([^\]]+)\]\]/g, (match, content) => {
     const [link, alias] = content.split('|').map(part => part.trim());
