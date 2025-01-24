@@ -88,11 +88,24 @@ function extractLinks($content) {
         }
 
         if (!empty($url)) {
-            $links[] = [
-                'text' => $text,
-                'url' => $url,
-                'title' => $title,
-            ];
+            $found = false;
+
+            foreach ($links as &$link) {
+                if ($link['url'] === $url) {
+                    $link['count'] = ($link['count'] ?? 0) + 1;
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $links[] = [
+                    'text' => $text,
+                    'url' => $url,
+                    'title' => $title,
+                    'count' => 1
+                ];
+            }
         }
     }
 
