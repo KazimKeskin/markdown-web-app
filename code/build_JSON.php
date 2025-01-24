@@ -137,7 +137,8 @@ function updateLinks(&$file, &$otherFile) {
            $otherFile['backlinks'][] = [
                'id' => $file['id'],
                'filepath' => $file['filepath'],
-               'title' => $file['title']
+               'title' => $file['title'],
+               'count' => $file['links'][$key]['count']
            ];
        }
     }
