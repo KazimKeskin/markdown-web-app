@@ -24,18 +24,26 @@ async function updateLinks(section) {
 
 async function validateAsset(url) {
     try {
-            const request = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
+        return new Promise((resolve, reject) => {
             request.open('HEAD', url, true);
+            request.onload = () => {
+                if (request.status >= 200 && request.status < 300) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            };
+            request.onerror = () => {
+                resolve(false);
+            };
             request.send();
-            if (request.status >= 200 && request.status < 300) {
-                return true;
-            } else {
-                return false;
-            }
+        });
     } catch (error) {
-            return false;
+        return false;
     }
 }
+
 
 
 function findFileFromLink(href, jsonData) {
