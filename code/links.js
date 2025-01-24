@@ -1,6 +1,6 @@
-function updateLinks(section) {
+async function updateLinks(section) {
     const links = section.querySelectorAll('a');
-    links.forEach(link => {
+    for (const link of links) {
       const path = findFileFromLink(link.getAttribute('href'), jsonData)
       if(path) {
         link.dataset.url = path
@@ -14,27 +14,26 @@ function updateLinks(section) {
           });
       }
       else if (link.href) {
-        validateAsset(link);
+        const isInternal = new URL(link.href, window.location.origin).origin === window.location.origin;
+        if (isInternal && !(await validateAsset(link.href))) {
+          link.replaceWith(document.createTextNode("[[" + link.textContent + "]]") );
+        }
       }
-  });
+  };
 }
 
-async function validateAsset(link) {
-    const url = link.href;
-    const isInternal = new URL(url, window.location.origin).origin === window.location.origin;
+async function validateAsset(url) {
     try {
-        if (isInternal) {
             const request = new XMLHttpRequest();
-            request.open('HEAD', url, false);
+            request.open('HEAD', url, true);
             request.send();
-            if (request.status < 200 || request.status >= 300) {
-                link.replaceWith(document.createTextNode("[[" + link.textContent + "]]") );
+            if (request.status >= 200 && request.status < 300) {
+                return true;
+            } else {
+                return false;
             }
-        }
     } catch (error) {
-        if (isInternal) {
-            link.replaceWith(document.createTextNode("[[" + link.textContent + "]]") );
-        }
+            return false;
     }
 }
 
@@ -181,9 +180,9 @@ function listMarkdownHeadings(content) {
 }
 
 
-function updateEmbeddedLinks(section) {
+async function updateEmbeddedLinks(section) {
   const links = section.querySelectorAll('img');
-  links.forEach(link => {
+  for (const link of links) {
     const src = link.getAttribute('src');
     if(!link.alt) {
       link.alt = src
@@ -217,6 +216,11 @@ function updateEmbeddedLinks(section) {
         addContent(item, mdBlock);
         link.parentNode.replaceChild(mdBlock, link);
       }
+      else {
+          const isInternal = new URL(src, window.location.origin).origin === window.location.origin;
+        if (isInternal && !(await validateAsset(src))) {
+          link.replaceWith(document.createTextNode("[[" + link.textContent + "]]") );
+        }
     }
-  });
+  };
 }
