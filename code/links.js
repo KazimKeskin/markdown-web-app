@@ -185,11 +185,38 @@ function updateEmbeddedLinks(section) {
   const links = section.querySelectorAll('img');
   links.forEach(link => {
     const src = link.getAttribute('src');
-    const item = findFileInJSON(src, jsonData);
-    if (item && config.includedFiletypes.includes(item.filetype)) {
-      const mdBlock = document.createElement('md-block');
-      addContent(item, mdBlock);
-      link.parentNode.replaceChild(mdBlock, link);
+    const fileType = src.split('.').pop().toLowerCase(); // Get the file extension
+    if(['mp3', 'wav', 'ogg', 'm4a', 'flac'].includes(fileType)) {
+
+      // embed audio file
+      const audio =  document.createElement('audio');
+      audio.controls = true;
+      audio.innerHTML = `
+                <source src="${src}" type="audio/${fileType}">
+                Your browser does not support the audio element.
+              <a href="${src}">Download the file</a>`;
+      link.parentNode.replaceChild(audio, link)
+    }
+    else if (['mp4', 'webm', 'ogg'].includes(fileType)) {
+
+      // embed video file
+      const video =  document.createElement('video');
+      video.controls = true;
+      video.innerHTML = `
+                <source src="${src}" type="video/${fileType}">
+                Your browser does not support the video element.
+                `;
+      link.parentNode.replaceChild(video, link)
+    }
+    else if (config.includedFiletypes.includes(fileType)) {
+      const item = findFileInJSON(src, jsonData);
+      if (item) {
+
+        //embed text file
+        const mdBlock = document.createElement('md-block');
+        addContent(item, mdBlock);
+        link.parentNode.replaceChild(mdBlock, link);
+      }
     }
   });
 }
