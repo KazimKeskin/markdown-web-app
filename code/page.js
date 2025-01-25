@@ -80,6 +80,7 @@ function addContent(item) {
     }
     displayBacklinks(item);
     displayLinks(item);
+    displayTags(item);
     
     markdownContent.addEventListener('md-render', function() {
       clearTimeout(timeoutId);
