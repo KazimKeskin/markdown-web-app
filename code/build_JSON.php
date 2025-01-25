@@ -174,7 +174,7 @@ function extractTags($content) {
     }
 
     // Extract inline hashtags
-    $hashtagPattern = '/#(\w+)/';
+    $hashtagPattern = '/(?<=\s)#(\w+)/';
     if (preg_match_all($hashtagPattern, $content, $hashtagMatches)) {
         $inlineTags = $hashtagMatches[1];
         foreach ($inlineTags as $inlineTag) {
