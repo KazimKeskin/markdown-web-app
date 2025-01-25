@@ -33,7 +33,7 @@ function renderPage(item) {
       updateLinks(linkSection);
       updateLinks(page);
       updateEmbeddedLinks(page);
-      listMarkdownHeadings(item.content);
+      listMarkdownHeadings(markdownContent);
     })
     .catch(error => {
       console.error("Error adding content:", error);
