@@ -16,19 +16,34 @@ li{
 }
 
 #container {
-  display:flex;
+  display: flex;
   height: 100vh;
 }
 
-#container > * {
+#view {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  overflow: hidden;
+ }
+
+#view > * {
   box-sizing: border-box;
   overflow: auto;
   padding: 12px;
 }
 
 #sidebar {
-  width: 20%;
+  display: flex;
+  flex-direction: column;
+  width: 10%;
   max-width: 500px;
+  padding: 12px;
+}
+
+#fileList {
+  flex: 1;
+  overflow: auto;
 }
 
 #fileList ul{
@@ -53,8 +68,8 @@ li{
 }
 
 #page {
+  flex: 1;
   overflow: auto;
-  width: 100%;
   padding: 2em;
 }
 
@@ -81,4 +96,16 @@ li{
   width: 10%;
   min-width: 100px;
   word-wrap: break-word;
+}
+
+
+@media (max-width: 1000px) {
+  #view {
+    flex-direction: column;
+  }
+
+@media (max-width: 600px) {
+  #sidebar {
+    display: none;
+  }
 }
