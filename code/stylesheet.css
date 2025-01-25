@@ -39,6 +39,7 @@ li{
   width: 10%;
   max-width: 500px;
   padding: 12px;
+  box-sizing: border-box;
 }
 
 #fileList {
