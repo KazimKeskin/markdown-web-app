@@ -9,11 +9,12 @@ const timeHeading = document.getElementById('time');
 const markdownContent = document.getElementById('markdownContent');
 const headingsSection = document.getElementById('headingsSection');
 const linkSection = document.getElementById('links');
-
+const base = document.querySelector('base');
 
 let config = {
   "host": "localhost",
-  "baseDirectory": "../",
+  "appName": "markdown-web-app/",
+  "baseDirectory": "../../",
   "hiddenDirectories": [],
   "includedFiletypes": ["md", "html", "php", "js", "css", "txt"],
   "addLinks": true,
@@ -25,12 +26,14 @@ let config = {
   }
 }
 
-fetch('code/config.json')
+fetch(`./server/config.json`)
   .then((response) => response.json())
   .then((data) => {
     config = { ...config, ...data };
   })
   .catch((error) => console.error('Error loading config:', error));
+
+base.href = config.baseDirectory.replace(/\.\.\//, " ");
 
 let jsonData;
 let notebookLoaded = false;
@@ -58,8 +61,9 @@ async function load() {
 
 async function getData() {
   try {
-    const response = await fetch('code/build_JSON.php');
-
+    base.href = "";
+    const response = await fetch(`./server/build_JSON.php`);
+    base.href = config.baseDirectory.replace(/\.\.\//, " ");
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
