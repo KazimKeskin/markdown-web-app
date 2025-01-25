@@ -63,13 +63,15 @@ function addContent(item) {
   return new Promise((resolve) => {
     let content = item.content;
     content = parseLinks(content);
-    content = content.replace(/&/g, '&amp;')
-                     .replace(/</g, '&lt;')
-                     .replace(/>/g, '&gt;')
-                     .replace(/"/g, '&quot;')
-                     .replace(/'/g, '&#39;');
     content = wrapYamlFrontMatter(content);
     if (config.codeTypes.includes(item.filetype)) {
+      if(item.filetype === 'html') {
+      content = content.replace(/&/g, '&amp;')
+                       .replace(/</g, '&lt;')
+                       .replace(/>/g, '&gt;')
+                       .replace(/"/g, '&quot;')
+                       .replace(/'/g, '&#39;');
+      }
      markdownContent.mdContent = `<pre><code class="language-${item.filetype}">${content}</code></pre>`;
     }
     else {
