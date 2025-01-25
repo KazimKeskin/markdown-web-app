@@ -32,6 +32,7 @@ function renderPage(item) {
       updateLinks(backlinkSection);
       updateLinks(linkSection);
       updateLinks(page);
+      updateEmbeddedLinks(page);
       listMarkdownHeadings(item.content);
     })
     .catch(error => {
@@ -66,16 +67,16 @@ function addContent(item) {
     content = wrapYamlFrontMatter(content);
     if (config.codeTypes.includes(item.filetype)) {
       if(item.filetype === 'html') {
-      content = content.replace(/&/g, '&amp;')
-                       .replace(/</g, '&lt;')
-                       .replace(/>/g, '&gt;')
-                       .replace(/"/g, '&quot;')
-                       .replace(/'/g, '&#39;');
+        content = content.replace(/&/g, '&amp;')
+                         .replace(/</g, '&lt;')
+                         .replace(/>/g, '&gt;')
+                         .replace(/"/g, '&quot;')
+                         .replace(/'/g, '&#39;');
       }
-     markdownContent.mdContent = `<pre><code class="language-${item.filetype}">${content}</code></pre>`;
+      markdownContent.mdContent = `<pre><code class="language-${item.filetype}">${content}</code></pre>`;
     }
     else {
-     markdownContent.mdContent = content;
+      markdownContent.mdContent = content;
     }
     displayBacklinks(item);
     displayLinks(item);
