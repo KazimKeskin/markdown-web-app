@@ -244,10 +244,11 @@ async function updateEmbeddedLinks(section) {
         link.parentNode.replaceChild(mdBlock, link);
       }
       else {
-          const isInternal = new URL(src, window.location.origin).origin === window.location.origin;
+        const isInternal = new URL(src, window.location.origin).origin === window.location.origin;
         if (isInternal && !(await validateAsset(src))) {
           link.replaceWith(document.createTextNode("[[" + link.textContent + "]]") );
         }
+      }
     }
-  };
+  }
 }
