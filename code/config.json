@@ -1,6 +1,7 @@
 {
   "host": "localhost",
-  "baseDirectory": "../",
+  "appName": "markdown-web-app/",
+  "baseDirectory": "../../",
   "hiddenDirectories": [],
   "includedFiletypes": ["md", "html", "php", "js", "css", "txt"],
   "addLinks": true,
