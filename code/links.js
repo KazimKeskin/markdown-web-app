@@ -104,9 +104,9 @@ function displayTags(file) {
 
 
 function parseLinks(text) {
-  return text.replace(/!?\[\[([^\]]+)\]\]/g, (match, content) => {
+  return text.replace(/(!?)\[\[([^\]]+)\]\]/g, (match, isEmbedded, content) => {
     const [link, alias] = content.split('|').map(part => part.trim());
-    return convertLinkToMarkdown(link, alias);
+    return convertLinkToMarkdown(link, alias, isEmbedded);
   });
 }
 
