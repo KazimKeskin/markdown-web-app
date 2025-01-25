@@ -78,7 +78,8 @@ function displayBacklinks(file) {
 
     backlinks.appendChild(backlinkList);
   } else {
-    backlinks.textContent = 'No backlinks found.';
+    // backlinks.textContent = 'No backlinks found.';
+    // backlinks.style.display = 'none'
   }
 }
 
@@ -149,7 +150,8 @@ function displayLinks(file) {
 
     linkSection.appendChild(linkList);
   } else {
-    linkSection.textContent = "No links found.";
+    // linkSection.textContent = "No links found.";
+    // linkSection.style.display = 'none'
   }
 }
 
