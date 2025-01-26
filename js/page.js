@@ -27,7 +27,7 @@ function findFileInJSON(hash, jsonData) {
 function renderPage(item) {
   clearPage();
   addMeta(item);
-  addContent(item)
+  addContent(item, markdownContent)
     .then(() => {
       updateLinks(backlinkSection);
       updateLinks(linkSection);
