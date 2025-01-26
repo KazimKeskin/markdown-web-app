@@ -30,7 +30,6 @@ li{
 #view > * {
   box-sizing: border-box;
   overflow: auto;
-  padding: 12px;
 }
 
 #sidebar {
@@ -38,13 +37,13 @@ li{
   flex-direction: column;
   width: 10%;
   max-width: 500px;
-  padding: 12px;
   box-sizing: border-box;
 }
 
 #fileList {
   flex: 1;
   overflow: auto;
+  padding: 12px;
 }
 
 #fileList ul{
@@ -68,10 +67,19 @@ li{
   min-width: 100px;
 }
 
+#backlinksDiv {
+  padding: 12px;
+}
+
+#tagsDiv {
+  padding: 12px;
+}
+
 #page {
   flex: 1;
   overflow: auto;
   padding: 2em;
+  padding: 12px;
 }
 
 #page ul {
@@ -86,6 +94,11 @@ li{
 #headingsSection {
   width: 10%;
   min-width: 100px;
+  padding: 12px;
+}
+
+#headingsSection ul ul {
+    margin-inline-start: 8px;
 }
 
 #headingsSection a{
@@ -93,17 +106,59 @@ li{
   font-weight: 550;
 }
 
-#links {
+.heading-level-1 {
+  font-size: 1em;
+}
+
+.heading-level-2 {
+  font-size: 0.9em;
+}
+
+.heading-level-3 {
+  font-size: 0.8em;
+}
+
+.heading-level-4 {
+  font-size: 0.7em;
+}
+
+.heading-level-5 {
+  font-size: 0.6em;
+}
+
+.heading-level-6 {
+  font-size: 0.6em;
+}
+
+#linkSection {
   width: 10%;
   min-width: 100px;
   word-wrap: break-word;
 }
 
+#linksDiv {
+  padding: 12px;
+}
+
+#externalLinksDiv {
+  padding: 12px;
+}
 
 @media (max-width: 1000px) {
   #view {
-    flex-direction: column;
+    display: block;
+    overflow: auto;
   }
+
+  #view > * {
+    position: relative;
+    width: auto;
+  }
+
+  #sidebar {
+    width: 20%;
+  }
+}
 
 @media (max-width: 600px) {
   #sidebar {
