@@ -66,18 +66,23 @@ function generateFolderStructureJSON(&$jsonData, $dir, $config, $depthIndex = 0)
 }
 
 function extractLinks($content) {
-    $pattern = '/\[(.*?)\]\((.*?)\)|\[\[(.*?)(?:\|(.*?))?\]\]/'; // Match Markdown links and WikiLinks
+    // Match Markdown links, WikiLinks and plain URLs
+    $pattern = '/\[(.*?)\]\((.+?)\)|\[\[(.*?)(?:\|(.*?))?\]\]|(https?:\/\/[^\s]+)/';
     preg_match_all($pattern, $content, $matches, PREG_SET_ORDER);
 
     $links = [];
     foreach ($matches as $match) {
-        if (!empty($match[1]) && !empty($match[2])) {
-            $text = $match[1];
+        if (!empty($match[2])) {
+            // Markdown link [text](url)
+            $text = !empty($match[1]) ? $match[1] : $match[2];
             $url = $match[2];
-            $title = $match[1];
+            $title = !empty($match[1]) ? $match[1] : $match[2];
+            $type = 'markdown';
         } elseif (!empty($match[3])) {
+            // WikiLink [[url|text]] or [[url]]
             $url = $match[3];
 
+            // If the URL doesn't have an extension, append .md
             if (!preg_match('/\.[a-zA-Z0-9]+$/', $url)) {
                 $url .= '.md';
             }
@@ -85,6 +90,13 @@ function extractLinks($content) {
             $url = str_replace(' ', '%20', $url);
             $text = $match[4] ?? str_replace('%20', ' ', $url);
             $title = $match[4] ?? preg_replace('/\.md$/', '', str_replace('%20', ' ', $url));
+            $type = 'wiki';
+        } elseif (!empty($match[5])) {
+            // Plain URL
+            $url = $match[5];
+            $text = $match[5];
+            $title = $match[5];
+            $type = 'http';
         }
 
         if (!empty($url)) {
@@ -103,6 +115,7 @@ function extractLinks($content) {
                     'text' => $text,
                     'url' => $url,
                     'title' => $title,
+                    'type' => $type,
                     'count' => 1
                 ];
             }
@@ -111,6 +124,8 @@ function extractLinks($content) {
 
     return $links;
 }
+
+
 
 function addLinks($jsonData) {
     foreach ($jsonData as &$file) {
@@ -152,6 +167,9 @@ function extractTags($content) {
     if (preg_match($yamlPattern, $content, $yamlMatch)) {
         $yamlTags = preg_split('/[\s,]+/', trim($yamlMatch[1]));
         foreach ($yamlTags as $yamlTag) {
+          if (empty($yamlTag)) {
+                continue;
+            }
             $found = false;
             foreach ($tags as &$tag) {
                 if ($tag['name'] === $yamlTag) {
@@ -178,6 +196,9 @@ function extractTags($content) {
     if (preg_match_all($hashtagPattern, $content, $hashtagMatches)) {
         $inlineTags = $hashtagMatches[1];
         foreach ($inlineTags as $inlineTag) {
+          if (empty($inlineTag)) {
+                continue;
+            }
             $found = false;
             foreach ($tags as &$tag) {
                 if ($tag['name'] === $inlineTag) {
