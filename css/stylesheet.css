@@ -99,35 +99,12 @@ li{
 
 #headingsSection ul ul {
     margin-inline-start: 8px;
+    font-size: 0.92em;
 }
 
 #headingsSection a{
   color: black;
   font-weight: 550;
-}
-
-.heading-level-1 {
-  font-size: 1em;
-}
-
-.heading-level-2 {
-  font-size: 0.9em;
-}
-
-.heading-level-3 {
-  font-size: 0.8em;
-}
-
-.heading-level-4 {
-  font-size: 0.7em;
-}
-
-.heading-level-5 {
-  font-size: 0.6em;
-}
-
-.heading-level-6 {
-  font-size: 0.6em;
 }
 
 #linkSection {
