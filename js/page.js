@@ -46,10 +46,11 @@ function clearPage() {
   titleHeading.innerText = "";
   dateHeading.innerText = "";
   timeHeading.innerText = "";
-  backlinks.innerHTML = "";
-  tagSection.innerHTML = "";
-  linkSection.innerHTML = "";
+  backlinksDiv.innerHTML = "";
+  tagsDiv.innerHTML = "";
   headingsSection.innerHTML = "";
+  linksDiv.innerHTML = "";
+  externalLinksDiv.innerHTML = "";
 }
 
 
@@ -81,12 +82,12 @@ function addContent(item) {
     displayBacklinks(item);
     displayLinks(item);
     displayTags(item);
-    
+
     markdownContent.addEventListener('md-render', function() {
       clearTimeout(timeoutId);
       resolve();
     }, { once: true });
-    
+
     timeoutId = setTimeout(() => {
       console.warn("md-render timeout! Resolving anyway.");
       reject(new Error("md-render timeout"));
