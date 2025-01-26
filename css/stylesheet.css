@@ -142,3 +142,16 @@ li{
     display: none;
   }
 }
+
+@supports (-webkit-touch-callout: none) {
+  #container {
+    overflow: overlay;
+  }
+}
+
+/* Target Firefox (doesn't support `overflow: overlay`) */
+@supports (scrollbar-gutter: stable) and not (-webkit-touch-callout: none) {
+  #container {
+    scrollbar-gutter: stable;
+  }
+}
