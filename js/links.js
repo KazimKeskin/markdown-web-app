@@ -73,10 +73,9 @@ function displayBacklinks(file) {
 
     backlinkItem.appendChild(backlinkLink);
     backlinkList.appendChild(backlinkItem);
-
     }
 
-    backlinks.appendChild(backlinkList);
+    backlinksDiv.appendChild(backlinkList);
   } else {
     // backlinks.textContent = 'No backlinks found.';
     // backlinks.style.display = 'none'
@@ -95,10 +94,10 @@ function displayTags(file) {
       tagList.appendChild(tagLi);
     });
 
-    tagSection.appendChild(tagList);
+    tagsDiv.appendChild(tagList);
   } else {
-    // tagSection.textContent = "No tags found.";
-    // tagSection.style.display = 'none';
+    // tagsDiv.textContent = "No tags found.";
+    // tagsDiv.style.display = 'none';
   }
 }
 
@@ -131,27 +130,47 @@ function ensureFileExtension(link) {
 
 function displayLinks(file) {
   const linkedFiles = file.links || [];
-  if (linkedFiles.length > 0) {
-    const linkList = document.createElement('ul');
+  const links = linkedFiles.filter(link => link.type !== 'external');
+  const externals = linkedFiles.filter(link => link.type === 'http');
 
-    linkedFiles.forEach(linkedFile => {
-      console.log(linkedFile);
+  if (links.length > 0) {
+    const linkList = document.createElement('ul');
+    links.forEach(link => {
       const linkItem = document.createElement('li');
       const linkAnchor = document.createElement('a');
 
-      linkAnchor.textContent = linkedFile.title;
-      linkAnchor.href = linkedFile.url;
-      linkAnchor.dataset.id= linkedFile.id;
-      linkAnchor.dataset.url = linkedFile.filepath;
+      linkAnchor.textContent = link.title;
+      linkAnchor.href = link.url;
+      linkAnchor.dataset.id= link.id;
+      linkAnchor.dataset.url = link.filepath;
 
       linkItem.appendChild(linkAnchor);
       linkList.appendChild(linkItem);
     });
 
-    linkSection.appendChild(linkList);
+    linksDiv.appendChild(linkList);
   } else {
-    // linkSection.textContent = "No links found.";
-    // linkSection.style.display = 'none'
+    // linksDiv.textContent = "No links found.";
+    // linksDiv.style.display = 'none'
+  }
+
+  if (externals.length > 0) {
+    const externalsList = document.createElement('ul');
+    externals.forEach(external => {
+      const linkItem = document.createElement('li');
+      const linkAnchor = document.createElement('a');
+
+      linkAnchor.textContent = external.title;
+      linkAnchor.href = external.url;
+
+      linkItem.appendChild(linkAnchor);
+      externalsList.appendChild(linkItem);
+    });
+
+    externalLinksDiv.prepend(externalsList);
+  } else {
+    // externalLinksDiv.textContent = "No external links found.";
+    // externalLinksDiv.style.display = 'none'
   }
 }
 
