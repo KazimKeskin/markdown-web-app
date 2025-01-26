@@ -1,20 +1,22 @@
 const fileList = document.getElementById('fileList');
 const backlinkSection = document.getElementById('backlinkSection');
-const backlinks = document.getElementById('backlinks');
-const tagSection = document.getElementById('tagSection');
+const backlinksDiv = document.getElementById('backlinksDiv');
+const tagsDiv = document.getElementById('tagsDiv');
 const page = document.getElementById('page');
 const titleHeading = document.getElementById('heading');
 const dateHeading = document.getElementById('date');
 const timeHeading = document.getElementById('time');
 const markdownContent = document.getElementById('markdownContent');
 const headingsSection = document.getElementById('headingsSection');
-const linkSection = document.getElementById('links');
+const linkSection = document.getElementById('linkSection');
+const linksDiv = document.getElementById('linksDiv');
+const externalLinksDiv = document.getElementById('externalLinksDiv');
 const base = document.querySelector('base');
 
 let config = {
   "host": "localhost",
   "appName": "markdown-web-app/",
-  "baseDirectory": "../../",
+  "baseDirectory": "../",
   "hiddenDirectories": [],
   "includedFiletypes": ["md", "html", "php", "js", "css", "txt"],
   "addLinks": true,
