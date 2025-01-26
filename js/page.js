@@ -61,7 +61,7 @@ function addMeta(item) {
 }
 
 
-function addContent(item) {
+function addContent(item, markdownContent) {
   return new Promise((resolve) => {
     let content = item.content;
     content = parseLinks(content);
