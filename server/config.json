@@ -3,10 +3,10 @@
   "appName": "markdown-web-app/",
   "baseDirectory": "../",
   "hiddenDirectories": [],
-  "includedFiletypes": ["md", "html", "php", "js", "css", "txt"],
+  "includedFiletypes": ["md", "html", "php", "js", "css", "txt", "json"],
   "addLinks": true,
   "addTags": true,
-  "codeTypes": ["js", "php", "css", "html"],
+  "codeTypes": ["js", "php", "css", "html", "json"],
   "listOptionsDefaults": {
     "listView": "nested",
     "folderStates": []
