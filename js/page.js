@@ -67,13 +67,8 @@ function addContent(item, markdownContent) {
     content = parseLinks(content);
     content = wrapYamlFrontMatter(content);
     if (config.codeTypes.includes(item.filetype)) {
-      if(item.filetype === 'html') {
-        content = content.replace(/&/g, '&amp;')
-                         .replace(/</g, '&lt;')
-                         .replace(/>/g, '&gt;')
-                         .replace(/"/g, '&quot;')
-                         .replace(/'/g, '&#39;');
-      }
+      content = content.replace(/</g, '&lt;')
+                       .replace(/>/g, '&gt;')
       markdownContent.mdContent = `<pre><code class="language-${item.filetype}">${content}</code></pre>`;
     }
     else {
