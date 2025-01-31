@@ -67,30 +67,32 @@ function generateFolderStructureJSON(&$jsonData, $dir, $config, $depthIndex = 0)
 
 function extractLinks($content) {
     // Match Markdown links, WikiLinks and plain URLs
-    $pattern = '/\[(.*?)\]\((.+?)\)|\[\[(.*?)(?:\|(.*?))?\]\]|(https?:\/\/[^\s]+)/';
+    $pattern = '/\[\[(.*?)(?:\|(.*?))?\]\]|\[(.*?)\]\((.+?)\)|(https?:\/\/[^\s]+)/';
     preg_match_all($pattern, $content, $matches, PREG_SET_ORDER);
 
     $links = [];
     foreach ($matches as $match) {
-        if (!empty($match[2])) {
-            // Markdown link [text](url)
-            $text = !empty($match[1]) ? $match[1] : $match[2];
-            $url = $match[2];
-            $title = !empty($match[1]) ? $match[1] : $match[2];
-            $type = 'markdown';
+        if (!empty($match[1])) {
+          // WikiLink [[url|text]] or [[url]]
+          $url = $match[1];
+
+          // If the URL doesn't have an extension, append .md
+          if (!preg_match('/\.[a-zA-Z0-9]+$/', $url)) {
+              $url .= '.md';
+          }
+
+          $url = str_replace(' ', '%20', $url);
+          $text = $match[3] ?? str_replace('%20', ' ', $url);
+          $title = $match[3] ?? preg_replace('/\.md$/', '', str_replace('%20', ' ', $url));
+          $type = 'wiki';
+          
         } elseif (!empty($match[3])) {
-            // WikiLink [[url|text]] or [[url]]
-            $url = $match[3];
+          // Markdown link [text](url)
+          $text = !empty($match[2]) ? $match[2] : $match[3];
+          $url = $match[4];
+          $title = !empty($match[2]) ? $match[2] : $match[3];
+          $type = 'markdown';
 
-            // If the URL doesn't have an extension, append .md
-            if (!preg_match('/\.[a-zA-Z0-9]+$/', $url)) {
-                $url .= '.md';
-            }
-
-            $url = str_replace(' ', '%20', $url);
-            $text = $match[4] ?? str_replace('%20', ' ', $url);
-            $title = $match[4] ?? preg_replace('/\.md$/', '', str_replace('%20', ' ', $url));
-            $type = 'wiki';
         } elseif (!empty($match[5])) {
             // Plain URL
             $url = $match[5];
@@ -124,8 +126,6 @@ function extractLinks($content) {
 
     return $links;
 }
-
-
 
 function addLinks($jsonData) {
     foreach ($jsonData as &$file) {
