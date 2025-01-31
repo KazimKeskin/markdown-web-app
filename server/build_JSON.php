@@ -24,7 +24,7 @@ function generateFolderStructureJSON(&$jsonData, $dir, $config, $depthIndex = 0)
       foreach ($items as $item) {
 
           //ignore hidden directories
-          if (strpos($item, '.') === 0 || in_array($item, $config['hiddenDirectories'])) 
+          if (strpos($item, '.') === 0 || in_array($item, $config['hiddenDirectories'])) {
               continue;
           }
 
