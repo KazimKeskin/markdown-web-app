@@ -15,7 +15,7 @@ function listFiles() {
 
 function buildList(jsonData, listOptions) {
     const fragment = document.createDocumentFragment();
-    const folderMap = new Map();
+    
 
     if (listOptions.listView === 'flat') {
       jsonData.forEach(item => {
@@ -30,9 +30,12 @@ function buildList(jsonData, listOptions) {
           fragment.appendChild(li);
         }
       });
-    } else {
+    } 
+    else {
+      const folderMap = new Map();
+      const ulMap = new Map();
       jsonData.forEach(item => {
-            addListElement(item, folderMap, fragment);
+            addListElement(item, folderMap, ulMap, fragment);
       });
     }
     const ul = document.createElement('ul');
@@ -49,58 +52,68 @@ function buildList(jsonData, listOptions) {
 }
 
 
-function addListElement(item, folderMap, fragment) {
-  // Create element
-  let li;
-  let itemAlreadyCreated = false;
+function addListElement(item, folderMap, ulMap, fragment) {
+    if (folderMap.has(item.filepath)) {
+        return;
+    }
+    
+    // Create list element
+    const li = document.createElement('li');
+    li.textContent = item.title || item.filename;
+    li.id = item.id;
+    li.dataset.id = item.filepath;
+    li.dataset.dateModified = item.dateModified || '';
+    li.dataset.dateCreated = item.dateCreated || '';
 
-  if (folderMap.has(item.filepath)) {
-    itemAlreadyCreated = true;
-    li = folderMap.get(item.filepath);
-  } else {
-    li = document.createElement('li');
-  }
+    if (item.filetype === 'folder') {
+        li.classList.add('folder');
 
-  li.textContent = item.title || item.filename;
-  li.id = item.id;
-  li.dataset.id = item.filepath;
-  li.dataset.dateModified = item.dateModified || '';
-  li.dataset.dateCreated = item.dateCreated || '';
-  if (itemAlreadyCreated) {
-    return;
-  }
-  if (item.filetype === 'folder') {
-    setAsFolder(li)
-    folderMap.set(item.filepath, li); // Save the folder reference in the map
-  }
-  else {
-    li.classList.add('file');
-  }
-
-  // Append to parent element
-  const pathParts = item.filepath.split('/');
-
-  if (pathParts.length === 1) {
-    // Root-level item
-    fragment.appendChild(li);
-  } else {
-    // Nested item
-    const parentFolderPath = pathParts.slice(0, -1).join('/');
-
-    // Check if the parent folder exists
-    let parentFolderLi = folderMap.get(parentFolderPath);
-
-    if (!parentFolderLi) {
-      // If the parent folder doesn't exist, create it
-      parentFolderLi = document.createElement('li');
-      setFolderLi(parentFolderLi);
-      folderMap.set(parentFolderPath, parentFolderLi); // Save the parent folder reference in the map
-      fragment.appendChild(parentFolderLi); // Append parent folder to the fragment
+        if (!li.querySelector('ul')) {
+            li.appendChild(document.createElement('ul'));
+        }
+        const existingState = state.listOptions.folderStates.find(state => state.id === item.filepath);
+        if (!existingState || existingState.collapsed) {
+            li.classList.add('collapsed');
+        }
+        folderMap.set(item.filepath, li);
+        ulMap.set(item.filepath, li.querySelector('ul'));
+    }
+    else {
+        li.classList.add('file');
+        if (state.activeFile === item.filepath) {
+            li.classList.add('active');
+        }
     }
 
-    // Append the current item to the parent folder
-    parentFolderLi.querySelector('ul').appendChild(li);
-  }
+    //Append list element
+    const pathParts = item.filepath.split('/');
+    if (pathParts.length === 1) {
+        // Root-level item
+        fragment.appendChild(li);
+    } 
+    else {
+        // Nested within parent folder
+        const parentPath = pathParts.slice(0, -1).join('/');
+        let parentUl = ulMap.get(parentPath);
+
+        if (!parentUl) {
+            //Find parent item in jsonData
+            const parentItem = jsonData.find(data => data.filepath === parentPath);
+
+            if (parentItem) {
+                //Create parent list element
+                addListElement(parentItem, folderMap, ulMap, fragment, state);
+                parentUl = ulMap.get(parentPath);
+            }
+            else {
+                return;
+            }
+        }
+        if (parentUl) {
+          //Append to parent folder ul
+          parentUl.appendChild(li);
+        }
+    }
 }
 
 
