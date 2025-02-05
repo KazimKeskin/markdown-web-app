@@ -7,8 +7,11 @@
   "addLinks": true,
   "addTags": true,
   "codeTypes": ["js", "php", "css", "html", "json"],
-  "listOptionsDefaults": {
-    "listView": "nested",
-    "folderStates": []
-  }
+  "activeFile": null,
+  "folderStates": [],
+  "sort": {
+    "folderFileOrder": "agnostic",
+    "sortBy": "dateModified",
+    "sortOrder": "desc"
+  },
 }
