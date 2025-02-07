@@ -1,6 +1,6 @@
 function sortData(data) {
     return [...data].sort((a, b) => {
-        const { folderFileOrder, sortBy, sortOrder } = state.sort;
+        const { folderFileOrder, sortBy, sortOrder } = config.sort;
 
         // Depth sorting
         const depthA = a.filepath.split('/').length - 1;
