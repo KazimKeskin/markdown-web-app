@@ -1,5 +1,4 @@
 function loadPage() {
-  console.log(allData);
     const hash = window.location.hash.slice(1);
     if (hash) {
       item = findFileInJSON(hash, allData)
