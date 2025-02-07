@@ -1,7 +1,7 @@
 function listFiles() {
     fileList.innerHTML = '';
 
-    const list = buildList(jsonData, listOptions);
+    const list = buildList(jsonData);
 
     fileList.appendChild(list);
 }
