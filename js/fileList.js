@@ -1,18 +1,18 @@
-function listFiles() {
-    fileList.innerHTML = '';
+function listFiles(allData) {
+    fileListSection.innerHTML = '';
+    
+    const list = buildList(allData);
 
-    const list = buildList(jsonData);
-
-    fileList.appendChild(list);
+    fileListSection.appendChild(list);
 }
 
 
-function buildList(jsonData) {
+function buildList(allData) {
     const fragment = document.createDocumentFragment();
-    
+
 
     if (config.sort.folderFileOrder === 'filesOnly') {
-      jsonData.forEach(item => {
+      allData.forEach(item => {
         if (item.filetype != 'folder') {
           const li = document.createElement('li');
           li.textContent = item.title || item.filename;
@@ -24,11 +24,11 @@ function buildList(jsonData) {
           fragment.appendChild(li);
         }
       });
-    } 
+    }
     else {
       const folderMap = new Map();
       const ulMap = new Map();
-      jsonData.forEach(item => {
+      allData.forEach(item => {
             addListElement(item, folderMap, ulMap, fragment);
       });
     }
@@ -50,7 +50,7 @@ function addListElement(item, folderMap, ulMap, fragment) {
     if (folderMap.has(item.filepath)) {
         return;
     }
-    
+
     // Create list element
     const li = document.createElement('li');
     li.textContent = item.title || item.filename;
@@ -84,15 +84,15 @@ function addListElement(item, folderMap, ulMap, fragment) {
     if (pathParts.length === 1) {
         // Root-level item
         fragment.appendChild(li);
-    } 
+    }
     else {
         // Nested within parent folder
         const parentPath = pathParts.slice(0, -1).join('/');
         let parentUl = ulMap.get(parentPath);
 
         if (!parentUl) {
-            //Find parent item in jsonData
-            const parentItem = jsonData.find(data => data.filepath === parentPath);
+            //Find parent item in allData
+            const parentItem = allData.find(data => data.filepath === parentPath);
 
             if (parentItem) {
                 //Create parent list element
