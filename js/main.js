@@ -64,7 +64,7 @@ async function load() {
   .then(data => {
     allData = data;
     notebookLoaded = true;
-    listFiles(allData);
+    listFiles(allData, 1);
     loadPage();
   })
   .catch(error => {
