@@ -1,6 +1,6 @@
-function sortData(data) {
+function sortData(data, sortOptions) {
     return [...data].sort((a, b) => {
-        const { folderFileOrder, sortBy, sortOrder } = config.sort;
+        const { folderFileOrder, sortBy, sortDirection } = sortOptions;
 
         // Depth sorting
         const depthA = a.filepath.split('/').length - 1;
@@ -31,6 +31,6 @@ function sortData(data) {
             comparison = String(aValue).localeCompare(String(bValue)); // Fallback for mixed types
         }
 
-        return sortOrder === 'asc' ? comparison : -comparison;
+        return sortDirection === 'asc' ? comparison : -comparison;
     });
 }
