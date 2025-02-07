@@ -1,4 +1,4 @@
-const fileList = document.getElementById('fileList');
+const fileListSection = document.getElementById('fileListSection');
 const backlinkSection = document.getElementById('backlinkSection');
 const backlinksDiv = document.getElementById('backlinksDiv');
 const tagsDiv = document.getElementById('tagsDiv');
@@ -33,6 +33,7 @@ let config = {
     "headings": true
   },
   "sort": {
+    "sortEnabled": true,
     "folderFileOrder": "agnostic",
     "sortBy": "dateModified",
     "sortDirection": "desc"
@@ -48,7 +49,7 @@ fetch(`./server/config.json`)
 
 base.href = config.baseDirectory.replace(/\.\.\//, " ");
 
-let jsonData;
+let allData;
 let notebookLoaded = false;
 
 
@@ -61,9 +62,9 @@ window.onload = async () => {
 async function load() {
   await getData()
   .then(data => {
-    jsonData = data;
+    allData = data;
     notebookLoaded = true;
-    listFiles();
+    listFiles(allData);
     loadPage();
   })
   .catch(error => {
