@@ -18,13 +18,16 @@ let config = {
   "appName": "markdown-web-app/",
   "baseDirectory": "../",
   "hiddenDirectories": [],
-  "includedFiletypes": ["md", "html", "php", "js", "css", "txt"],
+  "includedFiletypes": ["md", "html", "php", "js", "css", "txt", "json"],
   "addLinks": true,
   "addTags": true,
-  "codeTypes": ["js", "php", "css", "html"],
-  "listOptionsDefaults": {
-    "listView": "nested",
-    "folderStates": []
+  "codeTypes": ["js", "php", "css", "html", "json"],
+  "activeFile": null,
+  "folderStates": [],
+  "sort": {
+    "folderFileOrder": "agnostic",
+    "sortBy": "dateModified",
+    "sortOrder": "desc"
   }
 }
 
