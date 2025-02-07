@@ -74,7 +74,7 @@ function addListElement(item, folderMap, ulMap, fragment) {
     }
     else {
         li.classList.add('file');
-        if (state.activeFile === item.filepath) {
+        if (config.activeFile === item.filepath) {
             li.classList.add('active');
         }
     }
