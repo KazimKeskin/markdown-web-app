@@ -270,6 +270,7 @@ async function updateEmbeddedLinks(section) {
         }
 
         const mdBlock = document.createElement('md-block');
+        mdBlock.classList.add('embed');
         addContent(item, mdBlock, render);
         link.parentNode.replaceChild(mdBlock, link);
       }
