@@ -62,6 +62,7 @@ async function load() {
   await getData()
   .then(data => {
     allData = data;
+    console.log(allData);
     listFiles(allData, 1);
     loadPage();
   })
