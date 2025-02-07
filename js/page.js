@@ -39,13 +39,17 @@ function renderPage(item) {
   page.scrollTo(0, 0);
   clearPage();
   addMeta(item);
-  addContent(item, markdownContent)
-    .then(() => {
-      updateLinks(backlinkSection);
-      updateLinks(linkSection);
-      updateLinks(page);
-      updateEmbeddedLinks(page);
-      listMarkdownHeadings(markdownContent);
+   addContent(item, markdownContent, state.render)
+    .then(render => {
+      if (render.meta) addMeta(item);
+      if (render.backlinks) displayBacklinks(item);
+      if (render.links) displayLinks(item);
+      if (render.tags) displayTags(item);
+      if (render.links) updateLinks(backlinkSection);
+      if (render.links) updateLinks(linkSection);
+      if (render.links) updateLinks(page);
+      if (render.embeddedLinks) updateEmbeddedLinks(page);
+      if (render.headings) listMarkdownHeadings(markdownContent);
     })
     .catch(error => {
       console.error("Error adding content:", error);
@@ -73,7 +77,7 @@ function addMeta(item) {
 }
 
 
-function addContent(item, markdownContent) {
+function addContent(item, markdownContent, render) {
 return new Promise((resolve, reject) => {
     let content = item.content;
     content = parseLinks(content);
@@ -86,9 +90,6 @@ return new Promise((resolve, reject) => {
     else {
       markdownContent.mdContent = content;
     }
-    displayBacklinks(item);
-    displayLinks(item);
-    displayTags(item);
   
     markdownContent.addEventListener('md-render', function() {
       clearTimeout(timeoutId);
