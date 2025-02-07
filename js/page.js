@@ -40,13 +40,13 @@ function renderPage(item) {
    addContent(item, markdownContent)
     .then(() => {
       if (config.render.meta) addMeta(item);
+      updateLinks(markdownContent);
+      if (config.render.embeddedLinks) updateEmbeddedLinks(markdownContent);
       if (config.render.backlinks) displayBacklinks(item);
-      if (config.render.links) displayLinks(item);
-      if (config.render.tags) displayTags(item);
       if (config.render.backlinks) updateLinks(backlinkSection);
+      if (config.render.links) displayLinks(item);
       if (config.render.links) updateLinks(linkSection);
-      updateLinks(page);
-      if (config.render.embeddedLinks) updateEmbeddedLinks(page);
+      if (config.render.tags) displayTags(item);
       if (config.render.headings) listMarkdownHeadings(markdownContent);
     })
     .catch(error => {
