@@ -50,7 +50,6 @@ fetch(`./server/config.json`)
 base.href = config.baseDirectory.replace(/\.\.\//, " ");
 
 let allData;
-let notebookLoaded = false;
 
 
 window.onload = async () => {
@@ -63,7 +62,6 @@ async function load() {
   await getData()
   .then(data => {
     allData = data;
-    notebookLoaded = true;
     listFiles(allData, 1);
     loadPage();
   })
