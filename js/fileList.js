@@ -128,7 +128,7 @@ function handleFileClick(li) {
 
 function setAsFolder(li) {
   li.classList.add('folder');
-  const existingState = listOptions.folderStates.find(item => item.id === li.id);
+  const existingState = config.folderStates.find(item => item.id === li.id);
   if (!existingState || existingState.collapsed) {
     li.classList.add('collapsed');
   }
