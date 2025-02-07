@@ -11,7 +11,7 @@ function buildList(jsonData) {
     const fragment = document.createDocumentFragment();
     
 
-    if (state.sort.folderFileOrder === 'filesOnly') {
+    if (config.sort.folderFileOrder === 'filesOnly') {
       jsonData.forEach(item => {
         if (item.filetype != 'folder') {
           const li = document.createElement('li');
@@ -65,7 +65,7 @@ function addListElement(item, folderMap, ulMap, fragment) {
         if (!li.querySelector('ul')) {
             li.appendChild(document.createElement('ul'));
         }
-        const existingState = state.listOptions.folderStates.find(state => state.id === item.filepath);
+        const existingState = config.folderStates.find(state => state.id === item.filepath);
         if (!existingState || existingState.collapsed) {
             li.classList.add('collapsed');
         }
