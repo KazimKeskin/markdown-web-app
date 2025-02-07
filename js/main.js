@@ -27,7 +27,7 @@ let config = {
   "sort": {
     "folderFileOrder": "agnostic",
     "sortBy": "dateModified",
-    "sortOrder": "desc"
+    "sortDirection": "desc"
   }
 }
 
