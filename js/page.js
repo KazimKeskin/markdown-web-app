@@ -62,11 +62,11 @@ function addMeta(item) {
 
 
 function addContent(item, markdownContent) {
-  return new Promise((resolve) => {
+return new Promise((resolve, reject) => {
     let content = item.content;
     content = parseLinks(content);
     content = wrapYamlFrontMatter(content);
-    if (config.codeTypes.includes(item.filetype)) {
+    if (state.codeTypes.includes(item.filetype)) {
       content = content.replace(/</g, '&lt;')
                        .replace(/>/g, '&gt;')
       markdownContent.mdContent = `<pre><code class="language-${item.filetype}">${content}</code></pre>`;
@@ -77,7 +77,7 @@ function addContent(item, markdownContent) {
     displayBacklinks(item);
     displayLinks(item);
     displayTags(item);
-
+  
     markdownContent.addEventListener('md-render', function() {
       clearTimeout(timeoutId);
       resolve();
