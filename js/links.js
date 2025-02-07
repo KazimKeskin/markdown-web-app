@@ -259,9 +259,18 @@ async function updateEmbeddedLinks(section) {
     else if (config.includedFiletypes.includes(fileType)) {
       const item = findFileInJSON(src, jsonData);
       if (item) {
+        const render = {
+        meta: false,
+        backlinks: false,
+        links: false,
+        tags: false,
+        updateLinks: true,
+        embeddedLinks: true,
+        headings: false
+        }
 
         const mdBlock = document.createElement('md-block');
-        addContent(item, mdBlock);
+        addContent(item, mdBlock, render);
         link.parentNode.replaceChild(mdBlock, link);
       }
       else {
