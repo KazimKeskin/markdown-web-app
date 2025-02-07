@@ -38,17 +38,17 @@ function renderPage(item) {
   page.scrollTo(0, 0);
   clearPage();
   addMeta(item);
-   addContent(item, markdownContent, config.render)
-    .then(render => {
-      if (render.meta) addMeta(item);
-      if (render.backlinks) displayBacklinks(item);
-      if (render.links) displayLinks(item);
-      if (render.tags) displayTags(item);
-      if (render.backlinks) updateLinks(backlinkSection);
-      if (render.links) updateLinks(linkSection);
+   addContent(item, markdownContent)
+    .then(() => {
+      if (config.render.meta) addMeta(item);
+      if (config.render.backlinks) displayBacklinks(item);
+      if (config.render.links) displayLinks(item);
+      if (config.render.tags) displayTags(item);
+      if (config.render.backlinks) updateLinks(backlinkSection);
+      if (config.render.links) updateLinks(linkSection);
       updateLinks(page);
-      if (render.embeddedLinks) updateEmbeddedLinks(page);
-      if (render.headings) listMarkdownHeadings(markdownContent);
+      if (config.render.embeddedLinks) updateEmbeddedLinks(page);
+      if (config.render.headings) listMarkdownHeadings(markdownContent);
     })
     .catch(error => {
       console.error("Error adding content:", error);
