@@ -76,7 +76,7 @@ function addMeta(item) {
 }
 
 
-function addContent(item, markdownContent, render) {
+function addContent(item, pageContent) {
 return new Promise((resolve, reject) => {
     let content = item.content;
     content = parseLinks(content);
@@ -84,15 +84,15 @@ return new Promise((resolve, reject) => {
     if (config.codeTypes.includes(item.filetype)) {
       content = content.replace(/</g, '&lt;')
                        .replace(/>/g, '&gt;')
-      markdownContent.mdContent = `<pre><code class="language-${item.filetype}">${content}</code></pre>`;
+      pageContent.mdContent = `<pre><code class="language-${item.filetype}">${content}</code></pre>`;
     }
     else {
-      markdownContent.mdContent = content;
+      pageContent.mdContent = content;
     }
 
-    markdownContent.addEventListener('md-render', function() {
+    pageContent.addEventListener('md-render', function() {
       clearTimeout(timeoutId);
-      resolve(render);
+      resolve();
     }, { once: true });
 
     timeoutId = setTimeout(() => {
