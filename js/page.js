@@ -1,13 +1,24 @@
 function loadPage() {
   console.log(jsonData);
     const hash = window.location.hash.slice(1);
-    if (hash && notebookLoaded) {
+    if (hash) {
       item = findFileInJSON(hash, jsonData)
       console.log(item)
       if (item === null) {
         return
       }
       else {
+        const itemListElement = document.getElementById(item.id)
+        if (itemListElement && !itemListElement.classList.contains('active')) {
+          itemListElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        const allLiElements = fileList.querySelectorAll('li');
+        allLiElements.forEach(el => el.classList.remove('active'));
+        if(itemListElement){
+          itemListElement.classList.add('active');
+        }
+        config.activeFile = item.filepath
+
         renderPage(item);
       }
     }
@@ -25,6 +36,7 @@ function findFileInJSON(hash, jsonData) {
 
 
 function renderPage(item) {
+  page.scrollTo(0, 0);
   clearPage();
   addMeta(item);
   addContent(item, markdownContent)
