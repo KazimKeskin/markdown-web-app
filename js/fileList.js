@@ -1,9 +1,3 @@
-const listOptions = {
-    listView: 'nested', //'nested' or 'flat'
-    folderStates: []
-};
-
-
 function listFiles() {
     fileList.innerHTML = '';
 
@@ -13,11 +7,11 @@ function listFiles() {
 }
 
 
-function buildList(jsonData, listOptions) {
+function buildList(jsonData) {
     const fragment = document.createDocumentFragment();
     
 
-    if (listOptions.listView === 'flat') {
+    if (state.sort.folderFileOrder === 'filesOnly') {
       jsonData.forEach(item => {
         if (item.filetype != 'folder') {
           const li = document.createElement('li');
