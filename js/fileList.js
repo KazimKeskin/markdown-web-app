@@ -114,7 +114,7 @@ function addListElement(item, folderMap, ulMap, fragment) {
 function handleFolderClick(li) {
   li.classList.toggle('collapsed');
   const isCollapsed = li.classList.contains('collapsed');
-  updateFolderState(li.id, isCollapsed);
+  updateFolderState(li.dataset.id, isCollapsed);
 }
 
 
