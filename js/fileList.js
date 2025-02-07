@@ -1,9 +1,15 @@
-function listFiles(allData) {
-    fileListSection.innerHTML = '';
-    
-    const list = buildList(allData);
+function listFiles(allData, startStep = 1) {
+    let data = allData;
 
-    fileListSection.appendChild(list);
+    if (startStep <= 1 && config.sort.sortEnabled) {
+        data = sortData(data, config.sort)
+    }
+
+    if (startStep <= 2) {        
+        fileListSection.innerHTML = '';        
+        const list = buildList(data);       
+        fileListSection.appendChild(list);
+    }
 }
 
 
