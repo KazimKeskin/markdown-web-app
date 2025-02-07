@@ -1,11 +1,11 @@
 function sortData(data) {
     return [...data].sort((a, b) => {
-        const { selectedOrder, sortBy, sortOrder } = state.sort;
+        const { folderFileOrder, sortBy, sortOrder } = state.sort;
 
         // Depth sorting
         const depthA = a.filepath.split('/').length - 1;
         const depthB = b.filepath.split('/').length - 1;
-        if (depthA !== depthB && selectedOrder !== 'agnostic' && selectedOrder !== 'flat') {
+        if (depthA !== depthB && folderFileOrder !== 'agnostic' && folderFileOrder !== 'filesOnly') {
             return depthA - depthB;
         }
 
@@ -14,7 +14,7 @@ function sortData(data) {
             filesFirst: (a.filetype === 'folder') - (b.filetype === 'folder'),
         };
 
-        const folderFileComparison = orderMap[selectedOrder] ?? 0;
+        const folderFileComparison = orderMap[folderFileOrder] ?? 0;
         if (folderFileComparison !== 0) return folderFileComparison;
 
         const aValue = a[sortBy] || '';
