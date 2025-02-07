@@ -1,7 +1,7 @@
 async function updateLinks(section) {
     const links = section.querySelectorAll('a');
     for (const link of links) {
-      const path = findFileFromLink(link.getAttribute('href'), jsonData)
+      const path = findFileFromLink(link.getAttribute('href'), allData)
       if(path) {
         link.dataset.url = path
         link.href = path
@@ -46,10 +46,10 @@ async function validateAsset(url) {
 
 
 
-function findFileFromLink(href, jsonData) {
-  for (const key in jsonData) {
-    if (jsonData[key].filepath === href.replace(/%20/g, " ")) {
-      return jsonData[key].filepath;
+function findFileFromLink(href, allData) {
+  for (const key in allData) {
+    if (allData[key].filepath === href.replace(/%20/g, " ")) {
+      return allData[key].filepath;
     }
   }
   return null;
@@ -257,7 +257,7 @@ async function updateEmbeddedLinks(section) {
       link.parentNode.replaceChild(video, link)
     }
     else if (config.includedFiletypes.includes(fileType)) {
-      const item = findFileInJSON(src, jsonData);
+      const item = findFileInJSON(src, allData);
       if (item) {
         const render = {
         meta: false,
