@@ -130,7 +130,7 @@ function ensureFileExtension(link) {
 
 function displayLinks(file) {
   const linkedFiles = file.links || [];
-  const links = linkedFiles.filter(link => link.type !== 'external');
+  const links = linkedFiles.filter(link => link.type !== 'http');
   const externals = linkedFiles.filter(link => link.type === 'http');
 
   if (links.length > 0) {
