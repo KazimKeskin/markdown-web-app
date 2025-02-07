@@ -47,7 +47,7 @@ function renderPage(item) {
       if (render.backlinks) updateLinks(backlinkSection);
       if (render.links) updateLinks(linkSection);
       updateLinks(page);
-      updateEmbeddedLinks(page);
+      if (render.embeddedLinks) updateEmbeddedLinks(page);
       if (render.headings) listMarkdownHeadings(markdownContent);
     })
     .catch(error => {
