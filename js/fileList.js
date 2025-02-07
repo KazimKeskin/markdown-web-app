@@ -119,10 +119,11 @@ function handleFolderClick(li) {
 
 
 function handleFileClick(li) {
-  window.location.hash = li.dataset.id;
   const allLiElements = document.getElementById('sidebar').querySelectorAll('li');
   allLiElements.forEach(el => el.classList.remove('active'));
   li.classList.add('active');
+  window.location.hash = li.dataset.id;
+  config.activeFile = li.dataset.id
 }
 
 
