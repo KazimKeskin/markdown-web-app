@@ -1,8 +1,8 @@
 function loadPage() {
-  console.log(jsonData);
+  console.log(allData);
     const hash = window.location.hash.slice(1);
     if (hash) {
-      item = findFileInJSON(hash, jsonData)
+      item = findFileInJSON(hash, allData)
       console.log(item)
       if (item === null) {
         return
@@ -12,7 +12,7 @@ function loadPage() {
         if (itemListElement && !itemListElement.classList.contains('active')) {
           itemListElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        const allLiElements = fileList.querySelectorAll('li');
+        const allLiElements = fileListSection.querySelectorAll('li');
         allLiElements.forEach(el => el.classList.remove('active'));
         if(itemListElement){
           itemListElement.classList.add('active');
@@ -25,10 +25,10 @@ function loadPage() {
 }
 
 
-function findFileInJSON(hash, jsonData) {
-  for (const key in jsonData) {
-    if (jsonData[key].filepath === hash.replace(/%20/g, " ")) {
-      return jsonData[key];
+function findFileInJSON(hash, allData) {
+  for (const key in allData) {
+    if (allData[key].filepath === hash.replace(/%20/g, " ")) {
+      return allData[key];
     }
   }
   return null;
@@ -90,7 +90,7 @@ return new Promise((resolve, reject) => {
     else {
       markdownContent.mdContent = content;
     }
-  
+
     markdownContent.addEventListener('md-render', function() {
       clearTimeout(timeoutId);
       resolve(view);
