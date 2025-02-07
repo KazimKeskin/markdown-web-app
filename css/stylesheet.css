@@ -40,25 +40,25 @@ li{
   box-sizing: border-box;
 }
 
-#fileList {
+#fileListSection {
   flex: 1;
   overflow: auto;
   padding: 12px;
 }
 
-#fileList ul{
+#fileListSection ul{
   padding-inline-start: 1em;
 }
 
-#fileList li.folder{
+#fileListSection li.folder{
   list-style-type: circle;
 }
 
-#fileList li.folder.collapsed{
+#fileListSection li.folder.collapsed{
   list-style-type: disc;
 }
 
-#fileList li.folder.collapsed > ul {
+#fileListSection li.folder.collapsed > ul {
   display: none;
 }
 
