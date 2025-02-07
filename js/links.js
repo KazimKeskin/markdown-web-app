@@ -259,25 +259,24 @@ async function updateEmbeddedLinks(section) {
     else if (config.includedFiletypes.includes(fileType)) {
       const item = findFileInJSON(src, allData);
       if (item) {
-        const render = {
-        meta: false,
-        backlinks: false,
-        links: false,
-        tags: false,
-        updateLinks: true,
-        embeddedLinks: true,
-        headings: false
-        }
 
         const mdBlock = document.createElement('md-block');
         mdBlock.classList.add('embed');
-        addContent(item, mdBlock, render);
+        addContent(item, mdBlock)
+        .then(() => {
+          updateLinks(mdBlock);
+          updateEmbeddedLinks(mdBlock);
+        })
         link.parentNode.replaceChild(mdBlock, link);
       }
       else {
         const isInternal = new URL(src, window.location.origin).origin === window.location.origin;
         if (isInternal && !(await validateAsset(src))) {
           link.replaceWith(document.createTextNode("![[" + link.alt + "]]") );
+        }
+        else {
+          // Do nothing - is likely a well-functioning image or external link.
+          return;
         }
       }
     }
