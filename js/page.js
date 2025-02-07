@@ -44,10 +44,10 @@ function renderPage(item) {
       if (render.backlinks) displayBacklinks(item);
       if (render.links) displayLinks(item);
       if (render.tags) displayTags(item);
-      if (render.links) updateLinks(backlinkSection);
+      if (render.backlinks) updateLinks(backlinkSection);
       if (render.links) updateLinks(linkSection);
-      if (render.links) updateLinks(page);
-      if (render.embeddedLinks) updateEmbeddedLinks(page);
+      updateLinks(page);
+      updateEmbeddedLinks(page);
       if (render.headings) listMarkdownHeadings(markdownContent);
     })
     .catch(error => {
