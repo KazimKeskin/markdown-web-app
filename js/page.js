@@ -37,7 +37,6 @@ function findFileInJSON(hash, allData) {
 function renderPage(item) {
   page.scrollTo(0, 0);
   clearPage();
-  addMeta(item);
    addContent(item, markdownContent)
     .then(() => {
       if (config.render.meta) addMeta(item);
