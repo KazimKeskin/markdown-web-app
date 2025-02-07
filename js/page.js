@@ -92,7 +92,7 @@ return new Promise((resolve, reject) => {
 
     markdownContent.addEventListener('md-render', function() {
       clearTimeout(timeoutId);
-      resolve(view);
+      resolve(render);
     }, { once: true });
 
     timeoutId = setTimeout(() => {
