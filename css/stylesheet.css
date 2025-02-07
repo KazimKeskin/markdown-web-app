@@ -38,12 +38,14 @@ li{
   width: 10%;
   max-width: 500px;
   box-sizing: border-box;
+  min-width: 200px;
 }
 
 #fileListSection {
   flex: 1;
-  overflow: auto;
   padding: 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #fileListSection ul{
@@ -60,6 +62,10 @@ li{
 
 #fileListSection li.folder.collapsed > ul {
   display: none;
+}
+
+#fileListSection li.active {
+  font-weight: bold;
 }
 
 #backlinkSection {
@@ -135,6 +141,10 @@ li{
   #sidebar {
     width: 20%;
   }
+}
+
+.embed {
+  background-color: grey;
 }
 
 @media (max-width: 600px) {
