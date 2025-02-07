@@ -139,11 +139,11 @@ function setAsFolder(li) {
 
 
 function updateFolderState(id, isCollapsed) {
-  const existingState = listOptions.folderStates.find(item => item.id === id);
+  const existingState = config.folderStates.find(item => item.id === id);
 
   if (existingState) {
     existingState.collapsed = isCollapsed;
   } else {
-    listOptions.folderStates.push({ id, collapsed: isCollapsed });
+    config.folderStates.push({ id, collapsed: isCollapsed });
   }
 }
