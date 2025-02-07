@@ -24,6 +24,14 @@ let config = {
   "codeTypes": ["js", "php", "css", "html", "json"],
   "activeFile": null,
   "folderStates": [],
+  "render": {
+    "meta": true,
+    "backlinks": true,
+    "links": true,
+    "tags": true,
+    "embeddedLinks": true,
+    "headings": true
+  },
   "sort": {
     "folderFileOrder": "agnostic",
     "sortBy": "dateModified",
