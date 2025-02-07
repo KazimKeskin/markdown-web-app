@@ -44,8 +44,7 @@ li{
 #fileListSection {
   flex: 1;
   padding: 12px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: auto;
 }
 
 #fileListSection ul{
