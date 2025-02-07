@@ -39,7 +39,7 @@ function renderPage(item) {
   page.scrollTo(0, 0);
   clearPage();
   addMeta(item);
-   addContent(item, markdownContent, state.render)
+   addContent(item, markdownContent, config.render)
     .then(render => {
       if (render.meta) addMeta(item);
       if (render.backlinks) displayBacklinks(item);
