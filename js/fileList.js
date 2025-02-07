@@ -96,7 +96,7 @@ function addListElement(item, folderMap, ulMap, fragment) {
 
             if (parentItem) {
                 //Create parent list element
-                addListElement(parentItem, folderMap, ulMap, fragment, state);
+                addListElement(parentItem, folderMap, ulMap, fragment);
                 parentUl = ulMap.get(parentPath);
             }
             else {
