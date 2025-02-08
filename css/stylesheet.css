@@ -142,8 +142,8 @@ li{
   }
 }
 
-.embed {
-  background-color: grey;
+.embed > *{
+  border-left: thin solid gray
 }
 
 @media (max-width: 600px) {
