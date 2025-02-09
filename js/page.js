@@ -8,9 +8,16 @@ function loadPage() {
       }
       else {
         const itemListElement = document.getElementById(item.id)
+          
         if (itemListElement && !itemListElement.classList.contains('active')) {
+          let parent = itemListElement.closest("li.collapsed");
+          while (parent) {
+            parent.classList.remove("collapsed");
+            parent = parent.parentElement.closest("li.collapsed");
+          }
           itemListElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+          
         const allLiElements = fileListSection.querySelectorAll('li');
         allLiElements.forEach(el => el.classList.remove('active'));
         if(itemListElement){
