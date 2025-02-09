@@ -15,8 +15,6 @@ const base = document.querySelector('base');
 const title = document.querySelector('title');
 
 let config = {
-  "host": "localhost",
-  "appName": "markdown-web-app/",
   "title": "Markdown Web App",
   "baseDirectory": "../",
   "hiddenDirectories": [],
