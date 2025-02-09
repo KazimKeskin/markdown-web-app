@@ -1,12 +1,13 @@
 {
   "host": "localhost",
   "appName": "markdown-web-app/",
+  "title": "Markdown Web App",
   "baseDirectory": "../",
   "hiddenDirectories": [],
-  "includedFiletypes": ["md", "html", "php", "js", "css", "txt", "json"],
+  "includedFiletypes": ["md", "txt", "html", "css", "js", "php", "json"],
+  "codeTypes": ["html", "css", "js", "php", "json"],
   "addLinks": true,
   "addTags": true,
-  "codeTypes": ["js", "php", "css", "html", "json"],
   "activeFile": null,
   "folderStates": [],
   "render": {
