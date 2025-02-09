@@ -12,10 +12,12 @@ const linkSection = document.getElementById('linkSection');
 const linksDiv = document.getElementById('linksDiv');
 const externalLinksDiv = document.getElementById('externalLinksDiv');
 const base = document.querySelector('base');
+const title = document.querySelector('title');
 
 let config = {
   "host": "localhost",
   "appName": "markdown-web-app/",
+  "title": "Markdown Web App",
   "baseDirectory": "../",
   "hiddenDirectories": [],
   "includedFiletypes": ["md", "html", "php", "js", "css", "txt", "json"],
@@ -48,6 +50,7 @@ fetch(`./server/config.json`)
   .catch((error) => console.error('Error loading config:', error));
 
 base.href = config.baseDirectory.replace(/\.\.\//, " ");
+title.textContent = config.title;
 
 let allData;
 
