@@ -1,6 +1,4 @@
 {
-  "host": "localhost",
-  "appName": "markdown-web-app/",
   "title": "Markdown Web App",
   "baseDirectory": "../",
   "hiddenDirectories": [],
