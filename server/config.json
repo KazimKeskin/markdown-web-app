@@ -1,6 +1,7 @@
 {
   "title": "Markdown Web App",
   "baseDirectory": "../",
+  "baseUrl": "./",
   "hiddenDirectories": [],
   "includedFiletypes": ["md", "txt", "html", "css", "js", "php", "json"],
   "codeTypes": ["html", "css", "js", "php", "json"],
