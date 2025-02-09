@@ -19,6 +19,7 @@ function loadPage() {
         config.activeFile = item.filepath
 
         renderPage(item);
+        title.textContent = `${config.title} - ${item.title}`;
       }
     }
 }
