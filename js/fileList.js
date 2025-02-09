@@ -85,7 +85,7 @@ function addListElement(item, folderMap, ulMap, fragment) {
         }
     }
 
-    //Append list element
+    // Append list element
     const pathParts = item.filepath.split('/');
     if (pathParts.length === 1) {
         // Root-level item
@@ -97,11 +97,11 @@ function addListElement(item, folderMap, ulMap, fragment) {
         let parentUl = ulMap.get(parentPath);
 
         if (!parentUl) {
-            //Find parent item in allData
+            // Find parent item in allData
             const parentItem = allData.find(data => data.filepath === parentPath);
 
             if (parentItem) {
-                //Create parent list element
+                // Create parent list element
                 addListElement(parentItem, folderMap, ulMap, fragment);
                 parentUl = ulMap.get(parentPath);
             }
@@ -110,7 +110,7 @@ function addListElement(item, folderMap, ulMap, fragment) {
             }
         }
         if (parentUl) {
-          //Append to parent folder ul
+          // Append to parent folder ul
           parentUl.appendChild(li);
         }
     }
