@@ -5,8 +5,8 @@ header('Content-Type: application/json');
 $config = json_decode(file_get_contents('config.json'), true);
 
 $jsonData = generateFolderStructureJSON($jsonData, $config['baseDirectory'], $config);
-$config['addLinks'] && $jsonData = addLinks($jsonData);
-$config['addTags'] && $jsonData = addTags($jsonData);
+$config['addLinks'] && $jsonData = addLinks($jsonData, $config);
+$config['addTags'] && $jsonData = addTags($jsonData, $config);
 
 echo json_encode($jsonData);
 
@@ -85,7 +85,7 @@ function extractLinks($content) {
           $text = $match[3] ?? str_replace('%20', ' ', $url);
           $title = $match[3] ?? preg_replace('/\.md$/', '', str_replace('%20', ' ', $url));
           $type = 'wiki';
-          
+
         } elseif (!empty($match[3])) {
           // Markdown link [text](url)
           $text = !empty($match[2]) ? $match[2] : $match[3];
@@ -127,9 +127,9 @@ function extractLinks($content) {
     return $links;
 }
 
-function addLinks($jsonData) {
+function addLinks($jsonData, $config) {
     foreach ($jsonData as &$file) {
-        if ($file['filetype'] !== 'folder') {
+        if ($file['filetype'] !== 'folder' && !in_array($file['filetype'], $config['codeTypes'])) {
           $file['links'] = extractLinks($file['content']);
 
           foreach ($jsonData as &$otherFile) {
@@ -223,9 +223,9 @@ function extractTags($content) {
     return $tags;
 }
 
-function addTags(&$jsonData) {
+function addTags(&$jsonData, $config) {
     foreach ($jsonData as &$file) {
-      if ($file['filetype'] !== 'folder') {
+      if ($file['filetype'] !== 'folder' && !in_array($file['filetype'], $config['codeTypes'])) {
           $file['tags'] = extractTags($file['content']);
       }
     }
