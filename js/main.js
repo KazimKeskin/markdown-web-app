@@ -17,6 +17,7 @@ const title = document.querySelector('title');
 let config = {
   "title": "Markdown Web App",
   "baseDirectory": "../",
+  "baseUrl": "http://localhost/notes/notes/",
   "hiddenDirectories": [],
   "includedFiletypes": ["md", "html", "php", "js", "css", "txt", "json"],
   "addLinks": true,
@@ -47,11 +48,10 @@ fetch(`./server/config.json`)
   })
   .catch((error) => console.error('Error loading config:', error));
 
-base.href = config.baseDirectory.replace(/\.\.\//, " ");
 title.textContent = config.title;
 
-let allData;
 
+let allData;
 
 window.onload = async () => {
   await load();
@@ -75,9 +75,8 @@ async function load() {
 
 async function getData() {
   try {
-    base.href = "";
     const response = await fetch(`./server/build_JSON.php`);
-    base.href = config.baseDirectory.replace(/\.\.\//, " ");
+    base.href = config.baseUrl.replace(/\.\.\//, " ");
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
