@@ -10,6 +10,6 @@ a self-hosted web application for viewing text files with markdown styling.
 
 ## Installation
 - Place 'markdown-web-app' onto a hosted server running PHP
-- Edit server/config.json with baseDirectory as the route from server/build_JSON.php to the folder containing the files to be rendered. ("../" takes you to the 'markdown-web-app' folder and will display its own files)
-  - Further configuration options are available here
+- Configure server/config.json
+  - Edit server/config.json with "baseDirectory" as the route from server/build_JSON.php to the files to be rendered and "baseUrl" as the route from index.html to the files to be rendered. Relative paths can be used but if absolute paths are used, then, "baseDirectory" must be a local filepath and "baseUrl" must be a web URL.
 - Open index.html in a browser!
