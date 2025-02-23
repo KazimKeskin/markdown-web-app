@@ -105,7 +105,6 @@ function renderTags(data) {
         document.getElementById('clearSelectedTags').classList.remove('disabled-tag')
         document.getElementById('clearSelectedTags').addEventListener('click', () => {
             config.tags.selectedTags = [];
-            filesData = [];
             listFiles(allData, 1);
             document.getElementById('clearSelectedTags').classList.add('disabled-tag')
         });
