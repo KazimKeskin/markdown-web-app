@@ -64,6 +64,7 @@ async function load() {
   .then(data => {
     allData = data;
     console.log(allData);
+    addTagFilter();
     listFiles(allData, 1);
     loadPage();
   })
