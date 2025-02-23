@@ -164,3 +164,27 @@ li{
     scrollbar-gutter: stable;
   }
 }
+
+.hidden {
+  display: none !important;
+}
+
+#tagDiv {
+  display: flex;
+  flex-direction: column;
+  max-height: 20%;
+
+}
+
+#tagList {
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.active-tag {
+  font-weight: bold;
+}
+
+.disabled-tag {
+  color: gray;
+}
