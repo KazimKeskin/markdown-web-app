@@ -5,11 +5,17 @@ function listFiles(allData, startStep = 1) {
         data = filterDataFromTags(data, config.tags)
     }
 
-    if (startStep <= 2 && config.sort.sortEnabled) {
+    if (startStep <= 2 && config.search.searchEnabled) {
+        data = searchData(data, config.search)
+        if (config.tags.tagsEnabled) {
+          renderTags(data);
+        }
+    }
+    if (startStep <= 3 && config.sort.sortEnabled) {
         data = sortData(data, config.sort)
     }
-
-    if (startStep <= 3) {        
+	
+    if (startStep <= 4) {        
         fileListSection.innerHTML = '';        
         const list = buildList(data);       
         fileListSection.appendChild(list);
