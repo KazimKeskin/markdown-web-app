@@ -28,5 +28,24 @@
     "tagFilterMode" : "and",
     "selectedTags" : [],
     "allTags": []
+  },
+  "search": {
+    "searchEnabled": true,
+    "searchQuery": "",
+    "profile": "live",
+    "profiles": {
+      "live": {
+        "fuzzySensitivity" : 1,
+        "searchType" : "exact",
+        "searchScope" : "title",
+        "caseSensitive" : false
+      },
+      "advanced": {
+        "fuzzySensitivity" : 3,
+        "searchType" : "fuzzy",
+        "searchScope" : "both",
+        "caseSensitive" : false
+      }
+    }
   }
 }
