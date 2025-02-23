@@ -39,7 +39,7 @@ function createTagFilter() {
 
     tagDiv.appendChild(tagFilterMode);
     tagDiv.appendChild(tagSortDiv);
-    tagDiv.appendChild(clearSelectedTagsEl);
+    tagDiv.appendChild(clearSelectedTags);
     tagDiv.appendChild(tagList);
 
     sidebar.appendChild(tagsToggle);
