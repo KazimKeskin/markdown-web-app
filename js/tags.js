@@ -67,7 +67,7 @@ function renderTags(data) {
     const allTags = allData.flatMap(file => (Array.isArray(file.tags) ? file.tags : []));
     const uniqueTagNames = Array.from(new Set(allTags.map(tag => tag.name))).sort();
 
-    const filteredTags = getFilteredTags(data); // Gets tags that exist within the current fileData
+    const filteredTags = getTags(data);
 
     const tagList = document.getElementById('tagList');
     tagList.innerHTML = '';
@@ -140,22 +140,22 @@ function filterDataFromTags(data, tagsOptions) {
 }
 
 
-function getFilteredTags(filteredData) {
-  const filteredTags = new Set();
+function getTags(data) {
+  const tags = new Set();
 
-  filteredData.forEach(file => {
+  data.forEach(file => {
     if (
       config.tags.selectedTags.length === 0 || // No selected tags: include all
       (Array.isArray(file.tags) && config.tags.tagFilterMode === 'and' && config.tags.selectedTags.every(tag => file.tags.some(t => t.name === tag))) || // Match all selected tags
       (Array.isArray(file.tags) && config.tags.tagFilterMode === 'or' && config.tags.selectedTags.some(tag => file.tags.some(t => t.name === tag))) // Match any selected tag
     ) {
       if (Array.isArray(file.tags)) {
-        file.tags.forEach(tag => filteredTags.add(tag.name));
+        file.tags.forEach(tag => tags.add(tag.name));
       }
     }
   });
 
-  return Array.from(filteredTags);
+  return Array.from(tags);
 }
 
 
