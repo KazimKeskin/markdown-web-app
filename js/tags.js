@@ -1,4 +1,4 @@
-function createTagFilter() {
+function addTagFilter() {
     const tagDiv = document.createElement("div");
     tagDiv.id = "tagDiv";
     tagDiv.classList.add('hidden');
