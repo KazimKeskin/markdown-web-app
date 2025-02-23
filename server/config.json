@@ -22,5 +22,11 @@
     "folderFileOrder": "agnostic",
     "sortBy": "dateModified",
     "sortDirection": "desc"
+  },
+  "tags": {
+    "tagsEnabled": true,
+    "tagFilterMode" : "and",
+    "selectedTags" : [],
+    "allTags": []
   }
 }
