@@ -1,11 +1,15 @@
 function listFiles(allData, startStep = 1) {
     let data = allData;
 
-    if (startStep <= 1 && config.sort.sortEnabled) {
+    if (startStep <= 1 && config.tags.tagsEnabled) {
+        data = filterDataFromTags(data, config.tags)
+    }
+
+    if (startStep <= 2 && config.sort.sortEnabled) {
         data = sortData(data, config.sort)
     }
 
-    if (startStep <= 2) {        
+    if (startStep <= 3) {        
         fileListSection.innerHTML = '';        
         const list = buildList(data);       
         fileListSection.appendChild(list);
