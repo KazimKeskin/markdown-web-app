@@ -115,4 +115,36 @@ function fuzzyMatch(text, query, threshold = 3) {
     };
 }
 
+function addSearch() {
+    const searchDiv = document.createElement("div");
+    searchDiv.id = "searchDiv";
+
+    const form = document.createElement("form");
+    form.id = "search";
+    form.method = "post";
+
+    const searchInput = document.createElement("input");
+    searchInput.name = "query";
+    searchInput.id = "searchInput";
+    searchInput.placeholder = "Search";
+    searchInput.required = true;
+
+    form.appendChild(searchInput);
+    searchDiv.appendChild(form);
+    sidebar.prepend(searchDiv);
+
+    
+    searchInput.addEventListener('input', function () {
+      config.search.searchQuery = searchInput.value.trim();
+      config.search.profile = "live";
+      listFiles(allData, 1);
+    });
+
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          config.search.profile = "advanced"
+          listFiles(allData, 1)
+        }
+    });
+}
 
