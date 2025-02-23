@@ -65,6 +65,7 @@ async function load() {
     allData = data;
     console.log(allData);
     addTagFilter();
+    addSearch();
     listFiles(allData, 1);
     loadPage();
   })
