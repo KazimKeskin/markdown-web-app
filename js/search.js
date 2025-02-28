@@ -19,7 +19,7 @@ function searchData(data, searchConfig) {
         const checkMatch = (field, fieldName) => {
             if (!field) return null;
 
-            if (searchSensitivity === '0') {
+            if (matchTolerance === '0') {
                 if (field.includes(normalizedSearchQuery)) {
                     return {
                         isMatch: true,
