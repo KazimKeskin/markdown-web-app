@@ -54,7 +54,7 @@ function addTagFilter() {
     });
 
     tagSort.addEventListener('change', function() {
-      renderTags(allData);
+      renderTags(filesData);
     });
 
     tagFilterMode.addEventListener('change', function(e) {
