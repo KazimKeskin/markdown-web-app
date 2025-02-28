@@ -8,7 +8,7 @@ a self-hosted web application for viewing text files with markdown styling.
 - Code blocks with syntax highlighting
 - Backlinks, headings and links displays
 - Search with "live"(On Input) searching and configurable settings, including fuzzy matching
-- Tag filter, with 'Match All' and 'Match Any' options
+- Tag filter with 'Match All' and 'Match Any' options
 
 ## Installation
 - Place 'markdown-web-app' onto a hosted server running PHP
