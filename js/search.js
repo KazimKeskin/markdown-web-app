@@ -116,8 +116,7 @@ function fuzzyMatch(text, query, threshold = 3) {
 }
 
 function addSearch() {
-    const searchDiv = document.createElement("div");
-    searchDiv.id = "searchDiv";
+    const searchDiv = document.getElementById('searchDiv');
 
     const form = document.createElement("form");
     form.id = "search";
@@ -131,7 +130,6 @@ function addSearch() {
 
     form.appendChild(searchInput);
     searchDiv.appendChild(form);
-    sidebar.prepend(searchDiv);
 
     
     searchInput.addEventListener('input', function () {
