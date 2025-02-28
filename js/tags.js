@@ -19,6 +19,8 @@ function addTagFilter() {
         <option value="or">Match Any Tag</option>
     `;
 
+    const tagFilterSettings = document.createElement("div");
+    tagFilterSettings.id = "tagFilterSettings";
     const tagSortDiv = document.createElement("div");
     const tagSortLabel = document.createElement("label");
     tagSortLabel.htmlFor = "tagSort";
@@ -40,8 +42,9 @@ function addTagFilter() {
     const tagList = document.createElement("ul");
     tagList.id = "tagList";
 
-    tagDiv.appendChild(tagFilterMode);
-    tagDiv.appendChild(tagSortDiv);
+    tagFilterSettings.appendChild(tagFilterMode);
+    tagFilterSettings.appendChild(tagSortDiv);
+    tagDiv.appendChild(tagFilterSettings);
     tagDiv.appendChild(clearSelectedTags);
     tagDiv.appendChild(tagList);
 
