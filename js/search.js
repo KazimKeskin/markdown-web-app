@@ -132,17 +132,19 @@ function addSearch() {
     searchDiv.appendChild(form);
 
     
+    // Search on input
     searchInput.addEventListener('input', function () {
       config.search.searchQuery = searchInput.value.trim();
-      config.search.profile = "live";
+      config.search.profile = "onInput";
       listFiles(allData, 1);
     });
 
+    // Search on enter keypress
     searchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
-          config.search.profile = "advanced"
+          e.preventDefault();
+          config.search.profile = "onEnterKeypress";
           listFiles(allData, 1)
         }
     });
 }
-
