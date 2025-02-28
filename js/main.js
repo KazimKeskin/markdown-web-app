@@ -92,6 +92,7 @@ async function load() {
     filesData = allData;
     addTagFilter();
     addSearch();
+    addSearchOptions();
     addSortOptions();
     listFiles(allData, 1);
     loadPage();
