@@ -24,7 +24,7 @@
     "sortDirection": "desc"
   },
   "tags": {
-    "tagsEnabled": true,
+    "tagFilterEnabled": true,
     "tagFilterMode" : "and",
     "selectedTags" : [],
     "allTags": []
