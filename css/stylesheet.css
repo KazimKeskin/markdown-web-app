@@ -191,6 +191,51 @@ button:hover {
   text-decoration: none;
 }
 
+#optionsContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 12px;
+  font-size: 12px;
+  padding: 9px;
+  border-bottom: 1px solid #eee;
+}
+
+div:has(> input) {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+div:has(> select) {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+#optionsContainer select {
+  flex: 1;
+  font-size: 12px;
+}
+
+#optionsContainer option {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+#searchMode {
+  border: none;
+  border-bottom: 1px solid black;
+}
+
+.profile-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 #sortOptionsDiv {
   display: flex;
   flex-direction: row;
