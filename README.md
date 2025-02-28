@@ -3,10 +3,12 @@ a self-hosted web application for viewing text files with markdown styling.
 
 ## Features
 - Markdown styling rendered as HTML along with metadata headings
-- File directory list with sort options
+- File directory list with configurable sorting, including folder-file handling
 - File links and embedded multimedia
 - Code blocks with syntax highlighting
 - Backlinks, headings and links displays
+- Search with "live"(On Input) searching and configurable settings, including fuzzy matching
+- Tag filter, with 'Match All' and 'Match Any' options
 
 ## Installation
 - Place 'markdown-web-app' onto a hosted server running PHP
