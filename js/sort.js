@@ -34,3 +34,58 @@ function sortData(data, sortOptions) {
         return sortDirection === 'asc' ? comparison : -comparison;
     });
 }
+
+
+function addSortOptions() {
+  const sortDiv = document.getElementById('sortDiv');
+
+  const sortOptionsDiv = document.createElement("div");
+  sortOptionsDiv.id = "sortOptionsDiv";
+  sortOptionsDiv.innerHTML = `
+
+    <div>
+      <select id="sortBy">
+        <option value="title">Filename</option>
+        <option value="dateModified">Date Modified</option>
+        <option value="dateCreated">Date Created</option>
+        <option value="filetype">Filetype</option>
+        <option value="filesize">File Size</option>
+      </select>
+    </div>
+
+    <div>
+      <select id="sortDirection">
+        <option value="asc">Asc</option>
+        <option value="desc">Desc</option>
+      </select>
+    </div>
+
+    <div>
+      <select id="folderFileOrder">
+        <option value="foldersFirst">Folders First</option>
+        <option value="filesFirst">Files First</option>
+        <option value="agnostic">Agnostic</option>
+        <option value="filesOnly">Files Only</option>
+      </select>
+    </div>
+    `;
+
+    sortDiv.appendChild(sortOptionsDiv);
+
+    function setSortOptions() {
+      document.getElementById('sortBy').value = config.sort.sortBy;
+      document.getElementById('sortDirection').value = config.sort.sortDirection;
+      document.getElementById('folderFileOrder').value = config.sort.folderFileOrder;
+    }
+    setSortOptions();
+    
+    document.getElementById('sortBy').addEventListener('change', updateSortOption);
+    document.getElementById('sortDirection').addEventListener('change', updateSortOption);
+    document.getElementById('folderFileOrder').addEventListener('change', updateSortOption);
+}
+
+
+function updateSortOption() {
+  config.sort[this.id] = this.value;
+  listFiles(filesData, 3);
+}
