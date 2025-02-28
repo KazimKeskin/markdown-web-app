@@ -34,13 +34,13 @@
     "searchQuery": "",
     "profile": "live",
     "profiles": {
-      "live": {
+      "onInput": {
         "fuzzySensitivity" : 1,
         "searchType" : "exact",
         "searchScope" : "title",
         "caseSensitive" : false
       },
-      "advanced": {
+      "OnEnterKeypress": {
         "fuzzySensitivity" : 3,
         "searchType" : "fuzzy",
         "searchScope" : "both",
