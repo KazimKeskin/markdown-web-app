@@ -8,7 +8,7 @@ function listFiles(data, startStep = 1) {
     if (startStep <= 2 && config.search.searchEnabled) {
         filesData = searchData(filesData, config.search)
         if (config.tags.tagsEnabled) {
-          renderTags(allData);
+          renderTags(filesData);
         }
     }
 
