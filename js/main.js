@@ -48,6 +48,7 @@ let config = {
   },
   "search": {
     "searchEnabled": true,
+    "searchOptionsEnabled": true,
     "searchQuery": "",
     "profile": "live",
     "profiles": {
