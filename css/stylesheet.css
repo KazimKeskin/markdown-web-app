@@ -169,16 +169,74 @@ li{
   display: none !important;
 }
 
+#searchDiv {
+  padding: 12px 12px 12px 12px;
+}
+
+button {
+  border: none;
+  background: none;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0.5em 0.5em 0.5em 0.5em;
+}
+
+button:hover {
+  text-decoration: none;
+}
+
+#sortOptionsDiv {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 8px 16px 8px 16px;
+  border-bottom: 1px solid #eee;
+  gap: 4px;
+}
+
+#sortOptionsDiv > div {
+  display: flex;
+  flex-grow: 1;
+  gap: 6px;
+}
+
+#sortOptionsDiv select {
+  flex-grow: 1;
+}
+
+#tagFilter {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+
+#tagsToggle {
+  font-weight: bold;
+}
+
 #tagDiv {
   display: flex;
   flex-direction: column;
-  max-height: 20%;
+  flex-grow: 1;
+  max-height: 35vh;
+}
 
+#tagDiv > * {
+  padding-inline-start: 1em;
+  padding-inline-end: 1em;
+}
+
+#tagFilterSettings {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 16px 8px 16px;
+  border-bottom: 1px solid #eee;
 }
 
 #tagList {
   overflow-y: auto;
-  flex-grow: 1;
 }
 
 .active-tag {
