@@ -1,6 +1,8 @@
 function addTagFilter() {
-    const tagFilter = document.getElementById('tagFilter');
-    
+
+    const tagFilter = document.createElement('div');
+    tagFilter.id = "tagFilter";
+
     const tagDiv = document.createElement("div");
     tagDiv.id = "tagDiv";
     tagDiv.classList.add('hidden');
@@ -50,6 +52,7 @@ function addTagFilter() {
 
     tagFilter.appendChild(tagsToggle);
     tagFilter.appendChild(tagDiv);
+    sidebar.appendChild(tagFilter);
 
 
     tagsToggle.addEventListener('click', function() {
