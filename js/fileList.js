@@ -1,13 +1,13 @@
 function listFiles(data, startStep = 1) {
     filesData = data;
-	
+
     if (startStep <= 1 && config.tags.tagFilterEnabled) {
         filesData = filterDataFromTags(filesData, config.tags)
     }
 
     if (startStep <= 2 && config.search.searchEnabled) {
         filesData = searchData(filesData, config.search)
-        if (config.tags.tagsEnabled) {
+        if (config.tags.tagFilterEnabled) {
           renderTags(filesData);
         }
     }
