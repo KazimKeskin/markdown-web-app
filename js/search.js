@@ -1,12 +1,11 @@
 function searchData(data, searchConfig) {
-
     const { searchQuery, profile } = searchConfig;
 
     if (searchQuery === "") {
-      return data;
+        return data;
     }
 
-    const { caseSensitive, searchType, fuzzySensitivity, searchScope, sortResults } = searchConfig.profiles[profile];
+    const { caseSensitive, matchTolerance, searchScope, sortResults } = searchConfig.profiles[profile];
 
     const normalizedSearchQuery = caseSensitive ? searchQuery : searchQuery.toLowerCase();
     const resultsMap = new Map();
@@ -20,22 +19,21 @@ function searchData(data, searchConfig) {
         const checkMatch = (field, fieldName) => {
             if (!field) return null;
 
-            if (searchType === 'exact') {
+            if (searchSensitivity === '0') {
                 if (field.includes(normalizedSearchQuery)) {
                     return {
                         isMatch: true,
-                        matchType: 'exact',
+                        matchDistance: 0, // Exact matches have distance 0
                         matchClass: `${fieldName}-match`,
                         matches: []
                     };
                 }
-            }
-            else if (searchType === 'fuzzy') {
-                const fuzzyResult = fuzzyMatch(field, normalizedSearchQuery, fuzzySensitivity);
+            } else {
+                const fuzzyResult = fuzzyMatch(field, normalizedSearchQuery, matchTolerance);
                 if (fuzzyResult.isMatch) {
                     return {
                         isMatch: true,
-                        matchType: 'fuzzy',
+                        matchDistance: fuzzyResult.matches.distance,
                         matchClass: `${fieldName}-match`,
                         matches: fuzzyResult.matches
                     };
@@ -63,8 +61,8 @@ function searchData(data, searchConfig) {
         }
     }
 
-
-    return Array.from(resultsMap.values());
+    // Sort results by matchDistance
+    return Array.from(resultsMap.values()).sort((a, b) => a.matchDistance - b.matchDistance);
 }
 
 
