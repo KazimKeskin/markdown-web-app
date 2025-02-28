@@ -148,3 +148,104 @@ function addSearch() {
         }
     });
 }
+
+
+function addSearchOptions() {
+    const searchDiv = document.getElementById('searchDiv');
+
+    const optionsContainer = document.createElement("div");
+    optionsContainer.id = "optionsContainer";
+    optionsContainer.classList.add("hidden")
+
+    const searchOptionsBtn = document.createElement("button");
+    searchOptionsBtn.textContent = "Search Options";
+    searchOptionsBtn.id = "searchOptionsBtn";
+    searchOptionsBtn.addEventListener("click", () => {
+        optionsContainer.classList.toggle("hidden");
+    });
+
+    const modeDiv = document.createElement("div");
+    modeDiv.id = "modeDiv";
+
+    const searchMode = document.createElement("select");
+    searchMode.id = "searchMode";
+
+    searchDiv.appendChild(searchOptionsBtn);
+    modeDiv.appendChild(searchMode);
+    optionsContainer.appendChild(modeDiv);
+
+    const profileOptions = {};
+
+    // Dynamically add profile options
+    Object.keys(config.search.profiles).forEach(profile => {
+       const option = document.createElement("option");
+       option.value = profile;
+       option.textContent = profile
+           .replace(/([a-z])([A-Z])/g, "$1 $2")
+           .replace(/^./, str => str.toUpperCase());
+       searchMode.appendChild(option);
+
+       const profileOptionsDiv = document.createElement("div");
+       profileOptionsDiv.id = `${profile}Options`;
+       profileOptionsDiv.classList.add("profile-options");
+       profileOptionsDiv.classList.add("hidden");
+
+       profileOptionsDiv.innerHTML = `
+           <div>
+               <label for="${profile}_searchScope">Scope:</label>
+               <select id="${profile}_searchScope">
+                   <option value="title">Titles Only</option>
+                   <option value="content">Content Only</option>
+                   <option value="both">Titles and Content</option>
+               </select>
+           </div>
+           <div title="Allowed limit of character changes to be considered a match">
+               <label for="${profile}_matchTolerance">Match Distance:</label>
+               <select id="${profile}_matchTolerance">
+                 ${Array.from({ length: 11 }, (_, i) => `<option value="${i}">${i === 0 ? "Exact" : i}</option>`).join("")}
+               </select>
+               (?)
+           </div>
+           <div>
+               <label for="${profile}_caseSensitive">Match Case:</label>
+               <input type="checkbox" id="${profile}_caseSensitive">
+           </div>
+       `;
+
+       function setSearch(profile) {
+           profileOptionsDiv.querySelector(`#${profile}_searchScope`).value = config.search.profiles[profile].searchScope;
+           profileOptionsDiv.querySelector(`#${profile}_matchTolerance`).value = config.search.profiles[profile].matchTolerance;
+           profileOptionsDiv.querySelector(`#${profile}_caseSensitive`).checked = config.search.profiles[profile].caseSensitive;
+       }
+       setSearch(profile);
+
+       optionsContainer.appendChild(profileOptionsDiv);
+       profileOptions[profile] = profileOptionsDiv;
+    });
+
+    profileOptions[searchMode.value].classList.remove('hidden');
+
+
+    searchDiv.appendChild(optionsContainer);
+
+    searchMode.addEventListener('change', function () {
+      Object.keys(profileOptions).forEach(profile => {
+            profileOptions[profile].classList.add('hidden')
+      });
+      profileOptions[searchMode.value].classList.remove('hidden');
+    });
+
+    Object.keys(profileOptions).forEach(profile => {
+      optionsContainer.querySelector(`#${profile}_searchScope`).addEventListener("change", function () {
+          config.search.profiles[profile].searchScope = this.value;
+      });
+
+      optionsContainer.querySelector(`#${profile}_matchTolerance`).addEventListener("change", function () {
+          config.search.profiles[profile].searchSensitivity = parseInt(this.value, 10);
+      });
+
+      optionsContainer.querySelector(`#${profile}_caseSensitive`).addEventListener("change", function () {
+          config.search.profiles[profile].caseSensitive = this.checked;
+      });
+    });
+}
