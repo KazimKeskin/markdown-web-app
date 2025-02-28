@@ -1,23 +1,25 @@
-function listFiles(allData, startStep = 1) {
-    let data = allData;
-
+function listFiles(data, startStep = 1) {
+    filesData = data;
+	
     if (startStep <= 1 && config.tags.tagsEnabled) {
-        data = filterDataFromTags(data, config.tags)
+        filesData = filterDataFromTags(filesData, config.tags)
     }
 
     if (startStep <= 2 && config.search.searchEnabled) {
-        data = searchData(data, config.search)
+        filesData = searchData(filesData, config.search)
         if (config.tags.tagsEnabled) {
-          renderTags(data);
+          renderTags(allData);
         }
     }
+
     if (startStep <= 3 && config.sort.sortEnabled) {
-        data = sortData(data, config.sort)
+        filesData = sortData(filesData, config.sort)
     }
-	
-    if (startStep <= 4) {        
-        fileListSection.innerHTML = '';        
-        const list = buildList(data);       
+
+    if (startStep <= 4) {
+        fileListSection.innerHTML = '';
+        const list = buildList(filesData);
+        list.id = "fileList";
         fileListSection.appendChild(list);
     }
 }
