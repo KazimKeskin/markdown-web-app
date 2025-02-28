@@ -35,14 +35,12 @@
     "profile": "live",
     "profiles": {
       "onInput": {
-        "fuzzySensitivity" : 1,
-        "searchType" : "exact",
+        "matchTolerance" : 0,
         "searchScope" : "title",
         "caseSensitive" : false
       },
       "OnEnterKeypress": {
-        "fuzzySensitivity" : 3,
-        "searchType" : "fuzzy",
+        "matchTolerance" : 3,
         "searchScope" : "both",
         "caseSensitive" : false
       }
