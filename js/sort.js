@@ -1,11 +1,15 @@
 function sortData(data, sortOptions) {
     return [...data].sort((a, b) => {
+
         const { folderFileOrder, sortBy, sortDirection } = sortOptions;
 
         // Depth sorting
         const depthA = a.filepath.split('/').length - 1;
         const depthB = b.filepath.split('/').length - 1;
-        if (depthA !== depthB && folderFileOrder !== 'agnostic' && folderFileOrder !== 'filesOnly') {
+        if (depthA !== depthB && folderFileOrder ==="foldersFirst") {
+            return depthB - depthA;
+        }
+        else if (depthA !== depthB && folderFileOrder ==="filesFirst") {
             return depthA - depthB;
         }
 
@@ -16,6 +20,10 @@ function sortData(data, sortOptions) {
 
         const folderFileComparison = orderMap[folderFileOrder] ?? 0;
         if (folderFileComparison !== 0) return folderFileComparison;
+
+        if (sortBy === "relevance") {
+          return
+        }
 
         const aValue = a[sortBy] || '';
         const bValue = b[sortBy] || '';
@@ -45,6 +53,7 @@ function addSortOptions() {
 
     <div>
       <select id="sortBy">
+        <option value="relevance">Relevance</option>
         <option value="title">Filename</option>
         <option value="dateModified">Date Modified</option>
         <option value="dateCreated">Date Created</option>
@@ -78,7 +87,7 @@ function addSortOptions() {
       document.getElementById('folderFileOrder').value = config.sort.folderFileOrder;
     }
     setSortOptions();
-    
+
     document.getElementById('sortBy').addEventListener('change', updateSortOption);
     document.getElementById('sortDirection').addEventListener('change', updateSortOption);
     document.getElementById('folderFileOrder').addEventListener('change', updateSortOption);
