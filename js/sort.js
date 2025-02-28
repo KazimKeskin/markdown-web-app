@@ -45,7 +45,8 @@ function sortData(data, sortOptions) {
 
 
 function addSortOptions() {
-  const sortDiv = document.getElementById('sortDiv');
+  const sortDiv = document.createElement("div");
+  sortDiv.id = "sortDiv";
 
   const sortOptionsDiv = document.createElement("div");
   sortOptionsDiv.id = "sortOptionsDiv";
@@ -78,19 +79,20 @@ function addSortOptions() {
       </select>
     </div>
     `;
+    
+  sortDiv.appendChild(sortOptionsDiv);
+  fileListSection.before(sortDiv);
 
-    sortDiv.appendChild(sortOptionsDiv);
+  function setSortOptions() {
+    document.getElementById('sortBy').value = config.sort.sortBy;
+    document.getElementById('sortDirection').value = config.sort.sortDirection;
+    document.getElementById('folderFileOrder').value = config.sort.folderFileOrder;
+  }
+  setSortOptions();
 
-    function setSortOptions() {
-      document.getElementById('sortBy').value = config.sort.sortBy;
-      document.getElementById('sortDirection').value = config.sort.sortDirection;
-      document.getElementById('folderFileOrder').value = config.sort.folderFileOrder;
-    }
-    setSortOptions();
-
-    document.getElementById('sortBy').addEventListener('change', updateSortOption);
-    document.getElementById('sortDirection').addEventListener('change', updateSortOption);
-    document.getElementById('folderFileOrder').addEventListener('change', updateSortOption);
+  document.getElementById('sortBy').addEventListener('change', updateSortOption);
+  document.getElementById('sortDirection').addEventListener('change', updateSortOption);
+  document.getElementById('folderFileOrder').addEventListener('change', updateSortOption);
 }
 
 
