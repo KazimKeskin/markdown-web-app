@@ -1,4 +1,6 @@
 function addTagFilter() {
+    const tagFilter = document.getElementById('tagFilter');
+    
     const tagDiv = document.createElement("div");
     tagDiv.id = "tagDiv";
     tagDiv.classList.add('hidden');
@@ -20,13 +22,14 @@ function addTagFilter() {
     const tagSortDiv = document.createElement("div");
     const tagSortLabel = document.createElement("label");
     tagSortLabel.htmlFor = "tagSort";
-    tagSortLabel.textContent = "Selected Tags First:";
+    tagSortLabel.textContent = "Selectable Tags First";
     const tagSort = document.createElement("input");
     tagSort.type = "checkbox";
     tagSort.id = "tagSort";
     tagSort.name = "tagSort";
-    tagSortDiv.appendChild(tagSortLabel);
     tagSortDiv.appendChild(tagSort);
+    tagSortDiv.appendChild(tagSortLabel);
+
 
     const clearSelectedTags = document.createElement("li");
     clearSelectedTags.id = "clearSelectedTags";
@@ -42,8 +45,8 @@ function addTagFilter() {
     tagDiv.appendChild(clearSelectedTags);
     tagDiv.appendChild(tagList);
 
-    sidebar.appendChild(tagsToggle);
-    sidebar.appendChild(tagDiv);
+    tagFilter.appendChild(tagsToggle);
+    tagFilter.appendChild(tagDiv);
 
 
     tagsToggle.addEventListener('click', function() {
