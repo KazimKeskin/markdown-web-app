@@ -52,6 +52,7 @@ title.textContent = config.title;
 
 
 let allData;
+let filesData;
 
 window.onload = async () => {
   await load();
@@ -64,6 +65,7 @@ async function load() {
   .then(data => {
     allData = data;
     console.log(allData);
+    filesData = allData;
     addTagFilter();
     addSearch();
     listFiles(allData, 1);
