@@ -38,6 +38,29 @@ let config = {
     "folderFileOrder": "agnostic",
     "sortBy": "dateModified",
     "sortDirection": "desc"
+  },
+  "tags": {
+    "tagFilterEnabled": true,
+    "tagFilterMode" : "and",
+    "selectedTags" : [],
+    "allTags": []
+  },
+  "search": {
+    "searchEnabled": true,
+    "searchQuery": "",
+    "profile": "live",
+    "profiles": {
+      "onInput": {
+        "matchTolerance" : 0,
+        "searchScope" : "title",
+        "caseSensitive" : false
+      },
+      "OnEnterKeypress": {
+        "matchTolerance" : 3,
+        "searchScope" : "both",
+        "caseSensitive" : false
+      }
+    }
   }
 }
 
