@@ -5,7 +5,7 @@ function searchData(data, searchConfig) {
         return data;
     }
 
-    const { caseSensitive, matchTolerance, searchScope, sortResults } = searchConfig.profiles[profile];
+    const { caseSensitive, matchDistanceTolerance, searchScope, sortResults } = searchConfig.profiles[profile];
 
     const normalizedSearchQuery = caseSensitive ? searchQuery : searchQuery.toLowerCase();
     const resultsMap = new Map();
@@ -19,7 +19,7 @@ function searchData(data, searchConfig) {
         const checkMatch = (field, fieldName) => {
             if (!field) return null;
 
-            if (matchTolerance === '0') {
+            if (matchDistanceTolerance === '0') {
                 if (field.includes(normalizedSearchQuery)) {
                     return {
                         isMatch: true,
@@ -29,7 +29,7 @@ function searchData(data, searchConfig) {
                     };
                 }
             } else {
-                const fuzzyResult = fuzzyMatch(field, normalizedSearchQuery, matchTolerance);
+                const fuzzyResult = fuzzyMatch(field, normalizedSearchQuery, matchDistanceTolerance);
                 if (fuzzyResult.isMatch) {
                     return {
                         isMatch: true,
@@ -200,8 +200,8 @@ function addSearchOptions() {
                </select>
            </div>
            <div title="Allowed limit of character changes to be considered a match">
-               <label for="${profile}_matchTolerance">Match Distance:</label>
-               <select id="${profile}_matchTolerance">
+               <label for="${profile}_matchDistanceTolerance">Match Distance:</label>
+               <select id="${profile}_matchDistanceTolerance">
                  ${Array.from({ length: 11 }, (_, i) => `<option value="${i}">${i === 0 ? "Exact" : i}</option>`).join("")}
                </select>
                (?)
@@ -214,7 +214,7 @@ function addSearchOptions() {
 
        function setSearch(profile) {
            profileOptionsDiv.querySelector(`#${profile}_searchScope`).value = config.search.profiles[profile].searchScope;
-           profileOptionsDiv.querySelector(`#${profile}_matchTolerance`).value = config.search.profiles[profile].matchTolerance;
+           profileOptionsDiv.querySelector(`#${profile}_matchDistanceTolerance`).value = config.search.profiles[profile].matchDistanceTolerance;
            profileOptionsDiv.querySelector(`#${profile}_caseSensitive`).checked = config.search.profiles[profile].caseSensitive;
        }
        setSearch(profile);
@@ -240,7 +240,7 @@ function addSearchOptions() {
           config.search.profiles[profile].searchScope = this.value;
       });
 
-      optionsContainer.querySelector(`#${profile}_matchTolerance`).addEventListener("change", function () {
+      optionsContainer.querySelector(`#${profile}_matchDistanceTolerance`).addEventListener("change", function () {
           config.search.profiles[profile].searchSensitivity = parseInt(this.value, 10);
       });
 
