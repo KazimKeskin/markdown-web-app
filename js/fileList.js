@@ -1,7 +1,7 @@
 function listFiles(data, startStep = 1) {
     filesData = data;
 	
-    if (startStep <= 1 && config.tags.tagsEnabled) {
+    if (startStep <= 1 && config.tags.tagFilterEnabled) {
         filesData = filterDataFromTags(filesData, config.tags)
     }
 
