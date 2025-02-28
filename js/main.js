@@ -53,12 +53,12 @@ let config = {
     "profile": "live",
     "profiles": {
       "onInput": {
-        "matchTolerance" : 0,
+        "matchDistanceTolerance" : 0,
         "searchScope" : "title",
         "caseSensitive" : false
       },
       "OnEnterKeypress": {
-        "matchTolerance" : 3,
+        "matchDistanceTolerance" : 3,
         "searchScope" : "both",
         "caseSensitive" : false
       }
