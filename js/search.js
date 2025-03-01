@@ -95,13 +95,20 @@ function levenshteinDistance(a, b) {
 
 function fuzzyMatch(text, query, threshold = 3) {
     const words = text.split(/\s+/);
+    const queryWords = query.split(/\s+/);
+    const phrases = [];
+
+    for (let i = 0; i <= words.length - queryWords.length; i++) {
+        phrases.push(words.slice(i, i + queryWords.length).join(" "));
+    }
+
     const matches = [];
 
-    words.forEach(word => {
-        const distance = levenshteinDistance(word, query);
-        if (distance <= threshold || word.includes(query)) {
+    phrases.forEach(phrase => {
+        const distance = levenshteinDistance(phrase, query);
+        if (distance <= threshold || phrase.includes(query)) {
             matches.push({
-                word,
+                phrase,
                 distance
             });
         }
@@ -112,6 +119,7 @@ function fuzzyMatch(text, query, threshold = 3) {
         matches
     };
 }
+
 
 function addSearch() {
     const searchDiv = document.createElement("div");
