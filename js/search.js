@@ -241,7 +241,7 @@ function addSearchOptions() {
       });
 
       optionsContainer.querySelector(`#${profile}_matchDistanceTolerance`).addEventListener("change", function () {
-          config.search.profiles[profile].searchSensitivity = parseInt(this.value, 10);
+          config.search.profiles[profile].matchDistanceTolerance = parseInt(this.value, 10);
       });
 
       optionsContainer.querySelector(`#${profile}_caseSensitive`).addEventListener("change", function () {
