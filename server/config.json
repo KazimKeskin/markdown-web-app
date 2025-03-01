@@ -18,6 +18,7 @@
     "headings": true
   },
   "sort": {
+    "sortEnabled": true,
     "sortOptionsEnabled": true,
     "folderFileOrder": "agnostic",
     "sortBy": "dateModified",
