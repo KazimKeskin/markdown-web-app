@@ -91,10 +91,10 @@ async function load() {
     allData = data;
     console.log(allData);
     filesData = allData;
-    addTagFilter();
-    addSearch();
-    addSearchOptions();
-    addSortOptions();
+    if(config.tags.tagFilterEnabled) addTagFilter();
+    if(config.search.searchEnabled) addSearch();
+    if(config.search.searchOptionsEnabled) addSearchOptions();
+    if(config.sort.sortOptionsEnabled) addSortOptions();
     listFiles(allData, 1);
     loadPage();
   })
