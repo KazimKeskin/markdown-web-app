@@ -34,7 +34,7 @@
     "searchEnabled": true,
     "searchOptionsEnabled": true,
     "searchQuery": "",
-    "profile": "onInput",
+    "activeProfile": "onInput",
     "profiles": {
       "onInput": {
         "matchDistanceTolerance" : 0,
