@@ -3,7 +3,7 @@ function sortData(data, sortOptions) {
 
         const { folderFileOrder, sortBy, sortDirection } = sortOptions;
 
-        // Depth sorting
+        // Depth sort using filepath
         const depthA = a.filepath.split('/').length - 1;
         const depthB = b.filepath.split('/').length - 1;
         if (depthA !== depthB && folderFileOrder ==="foldersFirst") {
@@ -13,6 +13,7 @@ function sortData(data, sortOptions) {
             return depthA - depthB;
         }
 
+        // Folder-file order sort at the same depth using filetype
         const orderMap = {
             foldersFirst: (b.filetype === 'folder') - (a.filetype === 'folder'),
             filesFirst: (a.filetype === 'folder') - (b.filetype === 'folder'),
@@ -21,10 +22,12 @@ function sortData(data, sortOptions) {
         const folderFileComparison = orderMap[folderFileOrder] ?? 0;
         if (folderFileComparison !== 0) return folderFileComparison;
 
+        // Sort by relevance: search is already sort by matchDistance so return
         if (sortBy === "relevance") {
           return
         }
 
+        // General multi-type sort
         const aValue = a[sortBy] || '';
         const bValue = b[sortBy] || '';
 
