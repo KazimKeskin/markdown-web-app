@@ -71,8 +71,7 @@ function addTagFilter() {
 
 
 function renderTags(data) {
-
-    // Get all tags from the data
+    
     const allTags = allData.flatMap(file => (Array.isArray(file.tags) ? file.tags : []));
     const uniqueTagNames = Array.from(new Set(allTags.map(tag => tag.name))).sort();
 
@@ -85,7 +84,6 @@ function renderTags(data) {
         const tagElement = document.createElement('li');
         tagElement.textContent = `#${tagName}`;
 
-        // Highlight selected tags
         if (config.tags.selectedTags.includes(tagName)) {
           tagElement.classList.add('active-tag');
         }
@@ -100,9 +98,9 @@ function renderTags(data) {
                 if (config.tags.selectedTags.includes(tagName)) {
                     config.tags.selectedTags = config.tags.selectedTags.filter(t => t !== tagName); // Remove tag if already selected
                 } else {
-                    config.tags.selectedTags.push(tagName); // Add tag to selection
+                    config.tags.selectedTags.push(tagName);
                 }
-                listFiles(allData, 1); // Re-render the file list
+                listFiles(allData, 1);
             });
         }
 
