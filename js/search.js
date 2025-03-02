@@ -5,7 +5,7 @@ function searchData(data, searchConfig) {
         return data;
     }
 
-    const { caseSensitive, matchDistanceTolerance, searchScope, sortResults } = searchConfig.profiles[activeProfile];
+    const { caseSensitive, matchDistanceTolerance, searchScope } = searchConfig.profiles[activeProfile];
 
     const normalizedSearchQuery = caseSensitive ? searchQuery : searchQuery.toLowerCase();
     const resultsMap = new Map();
