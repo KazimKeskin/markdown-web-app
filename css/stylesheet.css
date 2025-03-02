@@ -45,6 +45,7 @@ li{
   max-width: 500px;
   box-sizing: border-box;
   min-width: 200px;
+  border-right: 1px solid #eee;
 }
 
 #fileListSection {
@@ -259,7 +260,6 @@ div:has(> select) {
   display: flex;
   flex-direction: column;
   border-top: 1px solid #eee;
-  border-right: 1px solid #eee;
 }
 
 #tagsToggle {
