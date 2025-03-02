@@ -230,7 +230,8 @@ function addSearchOptions() {
        optionsContainer.appendChild(profileOptionsDiv);
        profileOptions[profile] = profileOptionsDiv;
     });
-
+    
+    searchMode.value = state.search.activeProfile;
     profileOptions[searchMode.value].classList.remove('hidden');
 
 
