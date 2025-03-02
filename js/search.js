@@ -1,11 +1,11 @@
 function searchData(data, searchConfig) {
-    const { searchQuery, profile } = searchConfig;
+    const { searchQuery, activeProfile } = searchConfig;
 
     if (searchQuery === "") {
         return data;
     }
 
-    const { caseSensitive, matchDistanceTolerance, searchScope, sortResults } = searchConfig.profiles[profile];
+    const { caseSensitive, matchDistanceTolerance, searchScope, sortResults } = searchConfig.profiles[activeProfile];
 
     const normalizedSearchQuery = caseSensitive ? searchQuery : searchQuery.toLowerCase();
     const resultsMap = new Map();
