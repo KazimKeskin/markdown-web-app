@@ -178,12 +178,12 @@ function displayLinks(file) {
 function listMarkdownHeadings(content) {
   const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
   const headingsList = document.createElement('ul');
-  const listStack = [headingsList]; // Stack to manage nested lists
-  let currentDepth = 1; // Tracks the depth of the last heading processed
+  const listStack = [headingsList];
+  let currentDepth = 1;
 
   if (headings.length > 0) {
     headings.forEach((heading) => {
-      const depth = parseInt(heading.tagName.substring(1)); // Get heading depth
+      const depth = parseInt(heading.tagName.substring(1));
       const text = heading.textContent.trim();
 
       const listItem = document.createElement('li');
