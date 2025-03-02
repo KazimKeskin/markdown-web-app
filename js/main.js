@@ -50,7 +50,7 @@ let config = {
     "searchEnabled": true,
     "searchOptionsEnabled": true,
     "searchQuery": "",
-    "activeProfile": "live",
+    "activeProfile": "onInput",
     "profiles": {
       "onInput": {
         "matchDistanceTolerance" : 0,
