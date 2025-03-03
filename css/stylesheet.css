@@ -9,18 +9,16 @@ ul {
   margin-block-end: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.1em;
 }
 
-ul > li:first-child {
-  margin-top: 0.2em;
-  padding-block-start: 0.6em;
+li > ul > li:first-child {
+  margin-top: 0.4em;
 }
 
 li{
   list-style-type: none;
-  padding-block-start: 0.3em;
-  padding-block-end: 0.3em;
+  padding-block-start: 0.4em;
+  padding-block-end: 0.4em;
 }
 
 #container {
