@@ -149,7 +149,7 @@ li{
   }
 }
 
-.embed > *{
+.embed {
   border-left: thin solid gray
 }
 
