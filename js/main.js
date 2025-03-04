@@ -43,6 +43,7 @@ let config = {
   "tags": {
     "tagFilterEnabled": true,
     "tagFilterMode" : "and",
+    "tagSort": false,
     "selectedTags" : [],
     "allTags": []
   },
