@@ -128,10 +128,10 @@ function filterDataFromTags(data, tagsOptions) {
 
   // Filter the data based on the selected tags
   const filteredFiles = data.filter(file => {
+    if (selectedTags.length === 0) {
+      return true; // If no selected tags, include all files
+    }
     if (Array.isArray(file.tags)) {
-      if (selectedTags.length === 0) {
-        return true; // If no selected tags, include all files
-      }
       if (tagFilterMode === 'and') {
         return selectedTags.every(tag => file.tags.some(t => t.name === tag)); // If the file contains all selected tags, include it
       }
