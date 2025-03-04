@@ -143,7 +143,7 @@ function addSearch() {
     // Search on input
     searchInput.addEventListener('input', function () {
       config.search.searchQuery = searchInput.value.trim();
-      config.search.profile = "onInput";
+      config.search.activeProfile = "onInput";
       listFiles(allData, 1);
     });
 
@@ -151,7 +151,7 @@ function addSearch() {
     searchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
           e.preventDefault();
-          config.search.profile = "onEnterKeypress";
+          config.search.activeProfile = "onEnterKeypress";
           listFiles(allData, 1)
         }
     });
