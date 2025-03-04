@@ -256,18 +256,19 @@ async function updateEmbeddedLinks(section) {
                 `;
       link.parentNode.replaceChild(video, link)
     }
-    else if (config.includedFiletypes.includes(fileType)) {
+    else if (state.includedFiletypes.includes(fileType)) {
       const item = findFileInJSON(src, allData);
       if (item) {
-
+        const pre = document.createElement('pre')
+        pre.classList.add('embed');
         const mdBlock = document.createElement('md-block');
-        mdBlock.classList.add('embed');
         addContent(item, mdBlock)
         .then(() => {
           updateLinks(mdBlock);
           updateEmbeddedLinks(mdBlock);
         })
-        link.parentNode.replaceChild(mdBlock, link);
+        pre.appendChild(mdBlock)
+        link.parentNode.replaceChild(pre, link);
       }
       else {
         const isInternal = new URL(src, window.location.origin).origin === window.location.origin;
@@ -275,10 +276,14 @@ async function updateEmbeddedLinks(section) {
           link.replaceWith(document.createTextNode("![[" + link.alt + "]]") );
         }
         else {
-          // Do nothing - is likely a well-functioning image or external link.
+          // Do nothing - is likely an external link.
           return;
         }
       }
+    }
+    else {
+      // Do nothing - is likely a well-functioning image.
+      return;
     }
   }
 }
