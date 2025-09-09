@@ -181,6 +181,20 @@ li{
   border-bottom: 1px solid #eee;
 }
 
+#searchInputDiv {
+  justify-content: space-around;
+  gap: 6px;
+}
+
+#searchInput {
+  flex-grow: 1;
+}
+
+#searchButton {
+  text-decoration: none;
+  padding: 0px;
+}
+
 button {
   border: none;
   background: none;
