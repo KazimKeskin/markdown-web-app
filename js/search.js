@@ -129,13 +129,23 @@ function addSearch() {
     form.id = "search";
     form.method = "post";
 
+	const searchInputDiv = document.createElement("div");
+    searchInputDiv.className = "searchInputDiv";
+	
     const searchInput = document.createElement("input");
     searchInput.name = "query";
     searchInput.id = "searchInput";
     searchInput.placeholder = "Search";
     searchInput.required = true;
 
-    form.appendChild(searchInput);
+    const searchButton = document.createElement("button");
+    searchButton.type = "button";
+    searchButton.title = "Search";
+    searchButton.innerText = "Search";
+
+    searchInputDiv.appendChild(searchInput);
+	searchInputDiv.appendChild(searchButton);
+	form.appendChild(searchInputDiv);
     searchDiv.appendChild(form);
     sidebar.prepend(searchDiv);
 
@@ -154,6 +164,12 @@ function addSearch() {
           config.search.activeProfile = "onEnterKeypress";
           listFiles(allData, 1)
         }
+    });
+
+    // Search on submit
+    searchButton.addEventListener('click', function() {
+          config.search.activeProfile = "onEnterKeypress";
+          listFiles(allData, 1)
     });
 }
 
