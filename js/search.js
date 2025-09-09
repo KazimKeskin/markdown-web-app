@@ -130,7 +130,7 @@ function addSearch() {
     form.method = "post";
 
 	const searchInputDiv = document.createElement("div");
-    searchInputDiv.className = "searchInputDiv";
+    searchInputDiv.id = "searchInputDiv";
 	
     const searchInput = document.createElement("input");
     searchInput.name = "query";
