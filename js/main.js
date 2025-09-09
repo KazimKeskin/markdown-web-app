@@ -58,7 +58,7 @@ let config = {
         "searchScope" : "title",
         "caseSensitive" : false
       },
-      "onEnterKeypress": {
+      "onSubmit": {
         "matchDistanceTolerance" : 3,
         "searchScope" : "both",
         "caseSensitive" : false
