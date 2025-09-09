@@ -162,14 +162,14 @@ function addSearch() {
     searchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
           e.preventDefault();
-          config.search.activeProfile = "onEnterKeypress";
+          config.search.activeProfile = "onSubmit";
           listFiles(allData, 1)
         }
     });
 
     // Search on submit
     searchButton.addEventListener('click', function() {
-          config.search.activeProfile = "onEnterKeypress";
+          config.search.activeProfile = "onSubmit";
           listFiles(allData, 1)
     });
 }
