@@ -140,6 +140,7 @@ function addSearch() {
 
     const searchButton = document.createElement("button");
     searchButton.type = "button";
+	searchButton.id = "searchButton";
     searchButton.title = "Search";
     searchButton.innerText = "Search";
 
