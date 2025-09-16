@@ -256,7 +256,7 @@ async function updateEmbeddedLinks(section) {
                 `;
       link.parentNode.replaceChild(video, link)
     }
-    else if (state.includedFiletypes.includes(fileType)) {
+    else if (config.includedFiletypes.includes(fileType)) {
       const item = findFileInJSON(src, allData);
       if (item) {
         const pre = document.createElement('pre')
