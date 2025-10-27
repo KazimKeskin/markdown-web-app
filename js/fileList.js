@@ -139,7 +139,7 @@ function handleFileClick(li) {
     const allLiElements = document.getElementById('sidebar').querySelectorAll('li');
     allLiElements.forEach(el => el.classList.remove('active'));
     li.classList.add('active');
-    window.location.hash = li.dataset.id;
+    window.location.hash = encodeURIComponent(li.dataset.id);
     config.activeFile = li.dataset.id
 }
 
