@@ -34,7 +34,7 @@ function loadPage() {
 
 function findFileInJSON(hash, allData) {
   for (const key in allData) {
-    if (allData[key].filepath === encodeURIComponent(hash)) {
+    if (allData[key].filepath === decodeURIComponent(hash)) {
       return allData[key];
     }
   }
