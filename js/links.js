@@ -10,7 +10,7 @@ async function updateLinks(section) {
             event.preventDefault();
 
             let hash = this.dataset.url
-            window.location.hash = hash;
+            window.location.hash = encodeURIComponent(hash);
           });
       }
       else if (link.href) {
